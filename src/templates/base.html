@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+	<title>My Website</title>
+
+	{% include 'snippets/header.html' %}
+
+</head>
+
+<body>
+
+	<style type="text/css">
+		.main{
+			min-height: 100vh;
+			height: 100%;
+		}
+	</style>
+
+	<div class="main">
+
+	<!-- Body -->
+	{% block content %}
+
+	{% endblock content%}
+
+	</div>
+	<!-- End Body -->
+
+	{% include 'snippets/footer.html' %}
+
+</body>
+
+</html>

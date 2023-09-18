@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="pricing-header px-3 py-3 pt-md-5 pd-md-4 mx-auto text-center">
+	<h1 class="display-4">Intermediate Software Project</h1>
+	<p class="lead">Cy Dixon</p>
+</div>
+
+
+<div class="container">
+	<div class="d-flex flex-column">
+		<h4>Registered users:</h4>
+		{% for account in accounts %}
+			<p>{{account}}</p>
+		{% endfor %}
+	</div>
+</div>
+
+{% endblock content %}

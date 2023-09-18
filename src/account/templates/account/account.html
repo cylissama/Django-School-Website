@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ 
+<style type="text/css">
+	.form-signin {
+	max-width: 330px;
+	padding: 1rem;
+	}
+
+	.form-signin .form-floating:focus-within {
+	z-index: 2;
+	}
+
+	.form-signin input[type="email"] {
+	margin-bottom: 10px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	}
+
+	.form-signin input[type="username"] {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	}
+
+</style>
+<div class="container d-flex justify-content-center"> 
+ 
+	<form class="form-signin" method="post">{% csrf_token %}
+
+			<h1 class="h3 mb-3 fw-normal">Account</h1>
+
+			<input type="email" name="email" class="form-control" id="floatingInput" placeholder="Email" value="{{account_form.initial.email}}">
+
+			<input type="text" name="username" class="form-control" id="inputUsername" placeholder="Username" value="{{account_form.initial.username}}">
+
+			{% for field in account_form %}
+				<p>
+					{% for error in field.errors %}
+						<p style="color: red;">{{error}}</p>
+					{% endfor %}
+				</p>
+			{% endfor %}
+
+			{% if account_form.non_field_errors %}
+				<div style="color:red;">
+					<p>{ account_form.non_field_errors}}</p>
+				</div>
+			{% endif %}
+
+			{% if success_message %}
+				<p style="color: green; text-align: center;">{{success_message}}</p>
+			{% endif %}
+
+			<button class="btn btn-primary w-40 py-2 form-control" type="submit">Save Changes</button>
+
+	</form>
+
+</div>
+{% endblock content %}
