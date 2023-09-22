@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
  
 <style type="text/css">
 	.form-signin {
-	max-width: 330px;
+	max-width: 300px;
 	padding: 1rem;
 	}
 
@@ -24,11 +24,24 @@
 	border-top-right-radius: 0;
 	}
 
+	.blog-posts{
+		max-width: 300px;
+		width: 85%;
+		margin: auto;
+	}
+
+	div.container {
+		text-align: center;
+	}
+
 </style>
+
 <div class="container d-flex justify-content-center"> 
  
 	<form class="form-signin" method="post">{% csrf_token %}
-
+	<div class="d-flex flex-column pb-3">
+		<img class="img-fluid mx-auto d-block" src="{% static 'jollyroger.png' %}" alt="site logo" width="72" heigth="72">
+	</div>
 			<h1 class="h3 mb-3 fw-normal">Account</h1>
 
 			<input type="email" name="email" class="form-control" id="floatingInput" placeholder="Email" value="{{account_form.initial.email}}">
@@ -58,4 +71,21 @@
 	</form>
 
 </div>
+
+<div class="container d-flex flex-column pb-3">
+      <h3 class="mb-10 p-3 d-flex font-weight-normal justify-content-center">Blog posts</h3>
+      {% if blog_posts %}
+        <ul class="list-group mx-auto blog-posts wrapper">
+        {% for post in blog_posts %}
+          <a href="{% url 'blog:detail' post.slug %}" style="text-decoration: none;"><li class="list-group-item border-0">{{post.title}}</li></a>
+        {% endfor %}
+        </ul>
+      {% else %}
+        <p>You have no blog posts. Create a post <a href="{% url 'blog:create' %}">here</a>.</p>
+      {% endif %}
+</div>
+
+
+
+
 {% endblock content %}
