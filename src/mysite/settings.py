@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'account',
     'blog',
 
+    # From web
+    'hitcount',
+    
     # Django apps
     'django.contrib.admin',
     'django.contrib.auth',

@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from blog.models import BlogPost
-from blog.forms import CreateBlogPostForm, UpdateBlogPostForm
+from blog.models import BlogPost, Reply
+from blog.forms import CreateBlogPostForm, UpdateBlogPostForm, ReplyForm
 from account.models import Account
 from django.db.models import Q
+from hitcount.views import HitCountMixin
+from hitcount.models import HitCount
 
 def create_blog_view (request):
 
@@ -29,8 +31,28 @@ def detail_blog_view(request, slug):
 
 	context = {}
 
-	blog_post = get_object_or_404(BlogPost, slug=slug)
-	context['blog_post'] = blog_post
+	post = get_object_or_404(BlogPost, slug=slug)
+
+	if request.method == 'POST':
+		form = ReplyForm(request.POST)
+
+		if form.is_valid():
+			obj = form.save(commit=False)
+			obj.post = post
+			obj.save()
+
+			return redirect('/')
+
+	else:
+		form = ReplyForm()
+
+	context['blog_post'] = post
+	context['form'] = form
+
+	hit_count = HitCount.objects.get_for_object(post)
+
+	hit_count_response = HitCountMixin.hit_count(request, hit_count)
+
 
 	return render(request, 'blog/deatil_blog.html', context)
 
@@ -79,12 +101,28 @@ def get_blog_queryset(query=None):
 	return list(set(queryset))	
 
 def delete_blog(request, slug):
+
     blog_post = get_object_or_404(BlogPost, slug=slug)  # Get your current cat
 
-    if request.method == 'POST':         # If method is POST,
-        BlogPost.delete()                     # delete the cat.
-        return redirect('/')             # Finally, redirect to the homepage.
+         # If method is POST,
+    blog_post.delete()                     # delete the cat.
+    return redirect('/') 
 
-    return render(request, 'template_name.html', {'BlogPost': BlogPost})
+def add_reply(request, slug):
+
+	context = {}
+
+	blog_post = get_object_or_404(BlogPost, slug=slug)
+
+	form = ReplyForm(
+		initial = {
+			"post": blog_post,
+			"name": blog_post.author.username,
+		}
+	)
+	context['form'] = form
+
+	return render(request, 'blog/add_reply.html', context)
+
 
 

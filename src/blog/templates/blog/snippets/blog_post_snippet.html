@@ -24,14 +24,34 @@
 				</a>
 				<p class="card-text">{{blog_post.body|safe|truncatechars:250}}</p>
 				<p>
-					{% if blog_post.author == request.user %}
-						<a href="{% url 'blog:edit' blog_post.slug %}" class="btn btn-primary">Update</a>
-					{% endif %}
 				</p>  
 			</div>
-			<div class="card-footer text-muted">
+			<div class="card-footer text-muted px-2 p-3">
 			  Updated on {{blog_post.date_updated}} by {{blog_post.author}}
 			</div>
+
+			<h2>Replies</h2>
+			{% if not post.replies.all %}
+				<a href="{% url 'blog:reply' post.slug %}">Add Reply</a>
+				<br/>
+			{% else %}
+
+			<a href="{% url 'blog:reply' post.slug %}">Add Reply</a>
+
+			<br/>
+			
+				{% for reply in post.replies.all %}
+					<strong>
+						{{ reply.name }} - 
+						{{ reply.date_added }}
+					</strong>
+					<br/>
+					{{ reply.body }}
+					<br/>
+					<hr>
+				{% endfor %}
+			{% endif %}
+
 		</div>
 	</div>
 </div>

@@ -18,8 +18,8 @@ class BlogPost(models.Model):
 	author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
 	slug = models.SlugField(blank=True,unique=True)
 
-	def __str___(self):
-		return self.title
+	def __str__(self):
+		return '%s' % (self.title)
 
 @receiver(post_delete, sender=BlogPost)
 def submission_delete(sender, instance, **kwargs):
@@ -31,3 +31,11 @@ def pre_save_blog_post_receiver(sender, instance, *args, **kwargs):
 
 pre_save.connect(pre_save_blog_post_receiver, sender=BlogPost)
 
+class Reply(models.Model):
+	post = models.ForeignKey(BlogPost, related_name="replies", on_delete=models.CASCADE)
+	name = models.CharField(max_length=255)
+	body = models.TextField()
+	date_added = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return '%s - %s' % (self.post.title, self.name)

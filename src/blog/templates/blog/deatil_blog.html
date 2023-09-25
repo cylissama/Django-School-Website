@@ -1,39 +1,79 @@
 {% extends 'base.html' %}
+ 
+{% load hitcount_tags %}
 
 {% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style type="text/css">
 	.card {
-		height: 100px;
+		height: 75%;
+		width: 75%;
 	}
 
 	.container{
 		padding: 20px;
 	}
-</style>
 
-<div class="container">
-	<div class="row">
-		<div class="card m-auto">
-			<img class="card-img-top" src="{{blog_post.image.url}}">
-			<div class="card-body my-2">
-				<h2 class="card-title">{{blog_post.title}}</h2>
-				<p class="card-text">{{blog_post.body|safe}}</p>
-				<p>
-					{% if blog_post.author == request.user %}
-						<a href="{% url 'blog:edit' blog_post.slug %}" class="btn btn-primary">Update</a> 
-						<form action="{% url 'blog:delete' blog_post.slug %}" method="post">{% csrf_token %}
-    						<input type="submit" value="Delete Post">
-						</form>
-					{% endif %}
-				</p>
-			</div>
-			<div class="card-footer text-muted">
-				Updated on {{blog_post.date_updated}} by {{blog_post.author}}
+	.card-img-top {
+  width: 80%; // Required because we use flexbox and this inherently applies align-self: stretch
+  @include border-top-radius($card-inner-border-radius);
+	}
+</style>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="card border-primary m-auto">
+				<img class="card-img-bottom" src="{{blog_post.image.url}}">
+				<div class="card-body mb-2">
+					<h2 class="card-title">{{blog_post.title}}</h2>
+					<p class="card-text">{{blog_post.body|safe}}</p>
+					<p>
+						{% if blog_post.author == request.user or request.user.is_admin %}
+							<a href="{% url 'blog:edit' blog_post.slug %}" class="btn btn-primary">Edit</a> 
+
+						<!-- Button trigger modal -->
+							<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+							  Delete Post
+							</button>
+
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							  <div class="modal-dialog">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title" id="exampleModalLabel">Confirm</h5>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							      </div>
+							      <div class="modal-body">
+							        Are you sure you want to delete this post?
+							      </div>
+							      <div class="modal-footer">
+							      	<a href="{% url 'blog:delete' blog_post.slug %}" class="btn btn-danger">Delete</a>
+							        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						{% endif %}
+					</p>
+				</div>
+				<div class="card-footer text-muted">
+					Updated on {{blog_post.date_updated}} by {{blog_post.author}} | {% get_hit_count for blog_post %}
+					<i class="fa fa-eye"></i>
+				</div>
+
+				<div class="container">
+					<form class="form-control" method="post" action=".">
+						{% csrf_token %}
+						{{ form.as_table }}
+						<input type="submit" value="Add reply">
+					</form>
+				</div>
+
 			</div>
 		</div>
 	</div>
-</div>
 
+</body>
 {% endblock content %}
-
