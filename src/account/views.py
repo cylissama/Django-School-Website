@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm, AccountAuthenticationForm, AccountUpdateForm
 from blog.models import BlogPost
+from account.models import Account
 
 def registration_view(request):
 	context={}
@@ -21,6 +22,20 @@ def registration_view(request):
 		context['registration_form'] = form
 	return render(request, 'account/register.html', context)
 
+def del_user(request, username):    
+    try:
+        u = Account.objects.get(username = username)
+        u.delete()
+        messages.success(request, "The user is deleted")            
+
+    except User.DoesNotExist:
+        messages.error(request, "User doesnot exist")    
+        return render(request, '/')
+
+    except Exception as e: 
+        return render(request, '/',{'err':e.message})
+
+    return render(request, '/') 
 
 def logout_view(request):
 	logout(request)
@@ -57,6 +72,9 @@ def account_view(request):
 		return redirect("login")
 
 	context = {}
+
+	accounts = Account.objects.all()
+	context['accounts'] = accounts
 
 	if request.POST:
 		form = AccountUpdateForm(request.POST, instance=request.user)

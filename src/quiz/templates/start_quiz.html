@@ -1,0 +1,21 @@
+<!-- quiz/templates/quiz/start_quiz.html -->
+
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ quiz.name }}</h1>
+  <form method="post" action="{% url 'submit_quiz' quiz.id %}">
+    {% csrf_token %}
+    {% for question in questions %}
+      <fieldset>
+        <legend>{{ question.text }}</legend>
+        {% for choice in question.choice_set.all %}
+          <label>
+            <input type="radio" name="question_{{ question.id }}" value="{{ choice.id }}">
+            {{ choice.text }}
+          </label><br>
+        {% endfor %}
+      </fieldset>
+    {% endfor %}
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}

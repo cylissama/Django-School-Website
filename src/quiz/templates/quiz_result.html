@@ -1,0 +1,11 @@
+<!-- quiz/templates/quiz/quiz_result.html -->
+
+{% extends "base.html" %}
+{% block content %}
+  <h1>Quiz Result</h1>
+  {% if quiz_taker %}
+    <p>{{user.username}}, You scored a {{user.quiz_score}}</p>
+  {% else %}
+    <p>No quiz result found.</p>
+  {% endif %}
+{% endblock %}

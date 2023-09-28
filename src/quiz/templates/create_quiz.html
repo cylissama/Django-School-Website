@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+{% block content %}
+  <h1>Create a New Quiz</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <!-- Formset for adding questions -->
+    {{ question_formset.management_form }}
+    {% for form in question_formset.forms %}
+      {{ form.as_table }}
+      <!-- Formset for adding choices -->
+      {{ choice_formset.management_form }}
+      {% for choice_form in form.choices.forms %}
+        {{ choice_form.as_table }}
+      {% endfor %}
+    {% endfor %}
+    
+    <!-- Add more questions and choices -->
+    <button type="button" id="add-question">Add Question</button>
+    <button type="button" class="add-choice">Add Choice</button>
+    
+    <button type="submit">Create Quiz</button>
+  </form>
+
+  <script>
+    // JavaScript to add new formsets for questions and choices
+    document.getElementById('add-question').addEventListener('click', function () {
+      const questionFormset = document.getElementById('id_question_set-TOTAL_FORMS');
+      questionFormset.value = parseInt(questionFormset.value) + 1;
+    });
+
+    document.querySelectorAll('.add-choice').forEach(function (button) {
+      button.addEventListener('click', function () {
+        const choiceFormset = document.getElementById('id_question_set-0-choice_set-TOTAL_FORMS');
+        choiceFormset.value = parseInt(choiceFormset.value) + 1;
+      });
+    });
+  </script>
+{% endblock %}

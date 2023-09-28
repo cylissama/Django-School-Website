@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'personal',
     'account',
     'blog',
+    'quiz',
 
     # From web
     'hitcount',

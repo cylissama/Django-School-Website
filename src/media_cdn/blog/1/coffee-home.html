@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style type="text/css">
+
+	@media (max-width: 768px) { 
+		.right-column{
+			margin-left: 0px;
+		}
+	}
+
+	@media (min-width: 768px) { 
+		.right-column{
+			margin-left: 20px;
+		}
+	}
+
+	.blog-post-container{
+		margin-bottom: 20px;
+		width: 100%;
+	}
+	.create-post-bar{
+		background-color: #fff;
+		margin-bottom:20px;
+	}
+
+	.left-column{
+		padding:0px;
+	}
+
+	.right-column{
+		padding:0px;
+	}
+	.lead{
+		font-size: 17px;
+	}
+</style>
+
+<div class="container">
+
+	<div class="row">
+
+
+		<!-- Right 'create post' bar -->
+
+		<div class="create-post-bar d-lg-none col-lg-7 offset-lg-1">
+			<a href="{% url 'blog:create' %}">Create Post</a>
+		</div>
+
+		<!-- End Right 'create post' bar -->
+
+		<!-- Blog Feed -->
+
+		<div class="left-column col-lg-7 offset-lg-1">
+			<div class="blog-post-container">
+				<p>Thingy</p>
+			</div>
+
+			<div class="blog-post-container">
+				<p>Thingy</p>
+			</div>
+
+			<div class="blog-post-container">
+				<p>Thingy</p>
+			</div>
+
+			<div class="blog-post-container">
+				<p>Thingy</p>
+			</div>
+
+		</div>
+
+		<!-- End Blog Feed -->
+
+		<!-- Right 'create post' column -->
+
+		<div class="right-column col-lg-3 d-lg-flex d-none flex-column">
+			<div class="create-post-bar">
+				<p>Stuff</p>
+				<p>Stuff</p>
+				<p>Stuff</p>
+				<p>Stuff</p>
+				<p>Stuff</p>
+				<a href="">Create Post</a>
+			</div>
+		</div>
+
+		<!-- End Right 'create post' column -->
+
+
+	</div>
+
+</div>
+
+{% endblock content %}

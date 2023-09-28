@@ -41,6 +41,7 @@ class Account(AbstractBaseUser):
 	is_active				= models.BooleanField(default=True)
 	is_staff				= models.BooleanField(default=False)
 	is_superuser			= models.BooleanField(default=False)
+	quiz_score				= models.IntegerField(default=0)
 
 	#sets the login parameter to the user's email
 	USERNAME_FIELD = 'email'

@@ -19,6 +19,7 @@
   width: 80%; // Required because we use flexbox and this inherently applies align-self: stretch
   @include border-top-radius($card-inner-border-radius);
 	}
+
 </style>
 <body>
 	<div class="container">
@@ -28,7 +29,9 @@
 				<div class="card-body mb-2">
 					<h2 class="card-title">{{blog_post.title}}</h2>
 					<p class="card-text">{{blog_post.body|safe}}</p>
-					<p>
+
+					<p class="card-text">Attached File: <a href="path_to_file" download="{{blog_post.file.url}}">Download</a></p>
+
 						{% if blog_post.author == request.user or request.user.is_admin %}
 							<a href="{% url 'blog:edit' blog_post.slug %}" class="btn btn-primary">Edit</a> 
 
@@ -56,19 +59,14 @@
 							  </div>
 							</div>
 						{% endif %}
+						<div>
+							
+						</div>
 					</p>
 				</div>
 				<div class="card-footer text-muted">
 					Updated on {{blog_post.date_updated}} by {{blog_post.author}} | {% get_hit_count for blog_post %}
 					<i class="fa fa-eye"></i>
-				</div>
-
-				<div class="container">
-					<form class="form-control" method="post" action=".">
-						{% csrf_token %}
-						{{ form.as_table }}
-						<input type="submit" value="Add reply">
-					</form>
 				</div>
 
 			</div>

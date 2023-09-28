@@ -1,0 +1,11 @@
+<!-- quiz/templates/quiz/quiz_list.html -->
+
+{% extends "base.html" %}
+{% block content %}
+  <h1>Available Quizzes</h1>
+  <ul>
+    {% for quiz in quizzes %}
+      <li><a href="{% url 'start_quiz' quiz.id %}">{{ quiz.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

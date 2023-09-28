@@ -72,8 +72,9 @@
 
 </div>
 
+
 <div class="container d-flex flex-column pb-3">
-      <h3 class="mb-10 p-3 d-flex font-weight-normal justify-content-center">Your Blog posts</h3>
+      <h3 class="mb-10 p-3 d-flex font-weight-normal justify-content-center">Your posts</h3>
       {% if blog_posts %}
         <ul class="list-group mx-auto blog-posts wrapper">
         {% for post in blog_posts %}
@@ -85,7 +86,39 @@
       {% endif %}
 </div>
 
+<div class="container">
+	<h3 class="mb-10 p-3 d-flex font-weight-normal justify-content-center">Students</h3>
+	{% if user.is_admin %}
+    <ul class="list-group mx-auto blog-posts wrapper">
+		{% for account in accounts %}
+						<li class="list-group-item border-0">
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+							  {{account}}
+							</button>
 
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							  <div class="modal-dialog">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title" id="exampleModalLabel">Confirm</h5>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							      </div>
+							      <div class="modal-body">
+							      	Student Score: {{account.quiz_score}} 
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+</div>
 
 
 {% endblock content %}
