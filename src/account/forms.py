@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 
 from account.models import Account
 
+#to register
 class RegistrationForm(UserCreationForm):
 	email = forms.EmailField(max_length=60, help_text='Required. Add a valid email adress')
 
@@ -11,6 +12,7 @@ class RegistrationForm(UserCreationForm):
 		model = Account 
 		fields = ("email", "username", "password1", "password2", "is_admin")
 
+#to authenticate
 class AccountAuthenticationForm(forms.ModelForm):
 
 	password = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -26,6 +28,7 @@ class AccountAuthenticationForm(forms.ModelForm):
 			if not authenticate(email=email, password=password):
 				raise forms.ValidationError("Invalid Login")
 
+#updates the values changed
 class AccountUpdateForm(forms.ModelForm):
 
 	class Meta:
@@ -41,6 +44,7 @@ class AccountUpdateForm(forms.ModelForm):
 				return email 
 			raise forms.ValidationError('Email "%s" is already iin use.' % email)
 
+	#this method will let us get cleaned data from the given
 	def clean_username(self):
 		if self.is_valid():
 			username = self.cleaned_data['username']

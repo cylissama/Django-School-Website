@@ -31,7 +31,7 @@ class MyAccountManager(BaseUserManager):
 
 		return user 
 
-
+#extends the AbstractBaseUser for an easier implementaino 
 class Account(AbstractBaseUser):
 	email 					= models.EmailField(verbose_name="email", max_length=60, unique=True)
 	username 				= models.CharField(max_length=30, unique=True)

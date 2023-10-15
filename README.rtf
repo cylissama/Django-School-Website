@@ -2,17 +2,19 @@
 \cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\froman\fcharset0 Times-Roman;}
 {\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red16\green60\blue192;}
 {\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c6667\c33333\c80000;}
-\margl1440\margr1440\vieww21280\viewh11420\viewkind0
+\margl1440\margr1440\vieww21760\viewh13300\viewkind0
 \deftab720
 \pard\pardeftab720\partightenfactor0
 
 \f0\fs29\fsmilli14667 \cf0 \expnd0\expndtw0\kerning0
-\outl0\strokewidth0 \strokec2 #README for Django website Documentation and possible recreation#
+#README for Django website Documentation and possible recreation#
 \f1\fs24 \
 \
 \
 
-\f0\fs29\fsmilli14667 Create a directory for the project for example mine is called 396_project. Then create a virtual environment. I am using one called Virtual environment, this can be downloaded via pip3. Once downloaded activate using(for MacOS) source (env_source)/bin/activate. This will activate your Venv. Then install Django using pip. After installation we can begin to install requirements and setup apps for the website.
+\f0\fs29\fsmilli14667 More details about how this is made and how it works can be gained by checking out the source code. There are plenty of comments and explanations within the code that gives much more detail than the text. All of the necessary imports are found in the code and I will not explain them here, as it is not necessary to.\
+\
+Create a directory for the project for example mine is called 396_project. Then create a virtual environment. I am using one called Virtual environment, this can be downloaded via pip3. Once downloaded activate using(for MacOS) source (env_source)/bin/activate. This will activate your Venv. Then install Django using pip. After installation we can begin to install requirements and setup apps for the website.
 \f1\fs24 \
 \
 
@@ -20,7 +22,7 @@
 \f1\fs24 \
 \
 
-\f0\fs29\fsmilli14667 The first app we will create is te account app. By typing in the terminal djanog-admin startapp account, we can create an app named account. In this account app we will make the the user accounts that will populate the database and host users.\'a0
+\f0\fs29\fsmilli14667 The first app we will create is the account app. By typing in the terminal djanog-admin startapp account, we can create an app named account. In this account app we will make the the user accounts that will populate the database and host users.\'a0The acorn app will extend the AbstraceBaseUser class to make things easier for us. 
 \f1\fs24 \
 \
 
@@ -28,19 +30,30 @@
 \f1\fs24 \
 \
 
-\f0\fs29\fsmilli14667 For Account we create a class inside models called Account that will have all the account details such as email, name, date_joined and such. This naming method and class creation is used throughout the apps in my project.
+\f0\fs29\fsmilli14667 For Account we create a class inside models called Account that will have all the account details such as email, name, date_joined and such. This naming method and class creation is used throughout the apps in my project. This account model includes things like username, email, date_joined. These are used as user credentials and login methods. Once we finalized the creation of these models, we must go into the terminal and make the migrations. Making these migrations will put these models into the database so the website can use and store the data.
 \f1\fs24 \
 \
 
-\f0\fs29\fsmilli14667 Once these models are created, we can call them from views to then go through the urls and pass their context into a form to show on an html page that the end user can interact with. This is all done through Django\'92s apps and techniques.
+\f0\fs29\fsmilli14667 Once these models are created, we can call them from views to then go through the urls and pass their context into a form to show on an html page that the end user can interact with. This is all done through Django\'92s apps and techniques. The views we create will get context from the forms that are used to open the html files with the necessary interaction from the user and pass into the html what data is needed. In the account app, we must create an account view, a login view and a register view. All of these will be use to view, register, and login to you website account.\
+\
+Moving on to creating a post app so that users can post things onto the website. We start by creaeteing an app in the terminal like we did before. In the model.py we create a Post and Reply model. The post model takes in data like the title and body and image that will be display by the post. The reply model is created to reply to posts and holds a foreign key relationship with the post model so that if the post gets deleted we delete the linked replies. For the views.py we create a few methods. Create, Edit, Delete, Detail, add reply, and get blog query set. These views are used to display and render the html pages and forms so that we can get user data and display it on the webpage. The detail, edit, delete, reply and create views do what you\'92d expect. The get  query set view is used to display the posts on the webpages and creates a list of post objects. In the urls.py of posts we set up each url pattern so that we can linked to the different pages and html. For post, we also add in a Hit_count variable and import the Hit_count app so that we can keep track of user hits to a page. Install the Hit_count app inside the terminal and then a simple import HitCount * will do.\
+\
+Now to create a quiz app. The exact same method can be used inside the terminal to create the app, and once we add the models make sure to makemigrations.  \
+For this quiz model we need to break down the quizzes into a few parts. The Quiz itself the Questions, the Choices and then for this particular implementation I will add a QuizTaker class to more easily keep track of who is taking the quiz and how many points that user has. The Questions and Choices have a foreign key relationship with the Quizes so that we can cascade them and create them in relation to one another. Moving on to the views. We need a quiz _list to show what quizzes are avail to the user. We create a start_quiz view, so that we can initialize the quiz. Create a submit_quiz view to pass the context and get the user score. A quiz_result view to show the user what score they got. And finally a create_quiz view for creating a quiz. All of which are natural given the render to the corresponding html pages, and then passes the correct context. The forms that must be create for this to work are the CreateQuizForm and QuestionFormset and ChoiceFormSet so that we can disply these questions and choices per quiz.\
+\
+\
+We then link the urls create in the separate files to the main url sheet inside mystic/urls. This will let us use the urls inside the main page of our website or another page we would like to display. \
+\
+The final part of this is using Bootstrap to make everything look nice. A simple install form the bootstrap documentation will get us setup and then we can start to format the pages to our liking. More detail can be see inside the source code.\
+
 \f1\fs24 \
 \
 
-\f0\fs29\fsmilli14667 Other apps that have been created for this project include, Blog(the posts), and Quiz. There is one other app implemented called hit_count that is user created linked here: {\field{\*\fldinst{HYPERLINK "https://django-hitcount.readthedocs.io/en/latest/overview.html"}}{\fldrslt \cf3 \ul \ulc3 \strokec3 https://django-hitcount.readthedocs.io/en/latest/overview.html}} , this was used to track hit count for the websites.
+\f0\fs29\fsmilli14667 Other apps that have been created for this project include, Blog(the posts), and Quiz. There is one other app implemented called hit_count that is user created linked here: {\field{\*\fldinst{HYPERLINK "https://django-hitcount.readthedocs.io/en/latest/overview.html"}}{\fldrslt \cf3 \ul \ulc3 https://django-hitcount.readthedocs.io/en/latest/overview.html}} , this was used to track hit count for the websites.
 \f1\fs24 \
 \
 
-\f0\fs29\fsmilli14667 One more important thing to implement is Bootstrap. Bootstrap is frontend toolkit that allows for further customization of html. This was used to make the website more responsive and look much better. Linked is the bootstrap docs: {\field{\*\fldinst{HYPERLINK "https://getbootstrap.com/docs/5.3/getting-started/introduction/"}}{\fldrslt \cf3 \ul \ulc3 \strokec3 https://getbootstrap.com/docs/5.3/getting-started/introduction/}}\cf3 \ul \ulc3 \strokec3  .
-\f1\fs24 \cf0 \ulnone \strokec2 \
+\f0\fs29\fsmilli14667 One more important thing to implement is Bootstrap. Bootstrap is frontend toolkit that allows for further customization of html. This was used to make the website more responsive and look much better. Linked is the bootstrap docs: {\field{\*\fldinst{HYPERLINK "https://getbootstrap.com/docs/5.3/getting-started/introduction/"}}{\fldrslt \cf3 \ul \ulc3 https://getbootstrap.com/docs/5.3/getting-started/introduction/}}\cf3 \ul \ulc3  .
+\f1\fs24 \cf0 \ulnone \
 \
 }

@@ -11,4 +11,5 @@ class AccountAdmin(UserAdmin):
 	list_filter = ()
 	fieldsets = ()
 
+#registers the app into the admin site for easy use
 admin.site.register(Account, AccountAdmin)

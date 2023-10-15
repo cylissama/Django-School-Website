@@ -57,7 +57,7 @@
 			<div class="d-lg-none mb-3">
 				<div class="card m-auto d-flex flex-column p-3">
 					<img class="img-fluid d-block m-auto pb-2" src="{% static 'jollyroger.png' %}" width="72" height="72">
-					<p class="lead">"An idiot admires complexity, a genius admires simplicity" -Terry A. Davis</p>
+					<p class="lead"></p>
 					<p class="m-auto"><a class="btn btn-primary" href="{% url 'blog:create' %}">Create post</a></p>
 					<a href="{% url 'quiz_list' %}" class="btn btn-primary">Take a Quiz</a>
 					<a href="{% url 'create_quiz' %}" class="btn btn-primary">Create a Quiz</a>
@@ -93,13 +93,13 @@
 			<div class="card create-post-bar d-flex flex-column p-3">
 				<img class="img-fluid d-block m-auto pb-2" src="{% static 'jollyroger.png' %}" width="72" height="72">
 				<p class="lead">"An idiot admires complexity, a genius admires simplicity" -Terry A. Davis</p>
+				<hr/>
 				<p class="m-auto"><a class="btn btn-primary" href="{% url 'blog:create' %}">Create post</a></p>
+				<hr/>
+				<p class="m-auto"><a class="btn btn-primary" href="{% url 'quiz_list' %}">Take Quiz</a></p>
+				<hr/>
+				<p class="m-auto"><a class="btn btn-primary" href="{% url 'create_quiz' %}" class="btn btn-primary">Create a Quiz</a></p>
 
-			</div>
-			<div class="card create-post-bar d-flex flex-column p-3">
-				<img class="img-fluid d-block m-auto pb-2" src="{% static 'jollyroger.png' %}" width="72" height="72">
-				<p class="m-auto"><a class="btn btn-primary" href="#">Take Quiz</a></p>
-				<a href="{% url 'create_quiz' %}" class="btn btn-primary">Create a Quiz</a>
 			</div>
 		</div>
 		<!-- end Right 'create post' column  -->

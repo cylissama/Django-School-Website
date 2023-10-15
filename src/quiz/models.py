@@ -5,9 +5,6 @@ from django.conf import settings
 from django.dispatch import receiver
 from account.models import Account
 
-
-# Create your models here.
-
 class Quiz(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(default="empty")

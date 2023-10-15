@@ -21,6 +21,7 @@
 	}
 
 </style>
+
 <body>
 	<div class="container">
 		<div class="row">
@@ -29,18 +30,12 @@
 				<div class="card-body mb-2">
 					<h2 class="card-title">{{blog_post.title}}</h2>
 					<p class="card-text">{{blog_post.body|safe}}</p>
-
 					<p class="card-text">Attached File: <a href="path_to_file" download="{{blog_post.file.url}}">Download</a></p>
-
 						{% if blog_post.author == request.user or request.user.is_admin %}
 							<a href="{% url 'blog:edit' blog_post.slug %}" class="btn btn-primary">Edit</a> 
-
-						<!-- Button trigger modal -->
 							<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
 							  Delete Post
 							</button>
-
-							<!-- Modal -->
 							<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 							  <div class="modal-dialog">
 							    <div class="modal-content">
@@ -60,7 +55,6 @@
 							</div>
 						{% endif %}
 						<div>
-							
 						</div>
 					</p>
 				</div>

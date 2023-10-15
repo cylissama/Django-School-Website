@@ -8,7 +8,7 @@ from blog.views import(
 	add_reply,
 )
 
-#must have this
+#this is for easier reference of the app urls
 app_name = 'blog'
 
 urlpatterns = [
