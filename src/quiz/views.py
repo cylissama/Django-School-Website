@@ -5,40 +5,61 @@ from templates import *
 from .forms import CreateQuizForm
 from .forms import QuestionFormSet, ChoiceFormSet
 
+
+def study_view(request):
+    context = {}
+    return render(request, 'study_page.html', context)
+
+def math_view(request):
+    context = {}
+    quizzes = Quiz.objects.all()
+    context['quizzes'] = quizzes
+    return render(request, 'math_page.html', context)
+
 def quiz_list(request):
     quizzes = Quiz.objects.all()
     return render(request, 'quiz_list.html', {'quizzes': quizzes})
 
 def start_quiz(request, quiz_id):
+    context = {}
+    taken = 0
+    user = request.user  # Assuming user is authenticated
     quiz = get_object_or_404(Quiz, pk=quiz_id)
     questions = Question.objects.filter(quiz=quiz)
-    return render(request, 'start_quiz.html', {'quiz': quiz, 'questions': questions})
+
+    if QuizTaker.objects.filter(user=user, quiz=quiz).exists():
+        taken = 1
+       
+    return render(request, 'start_quiz.html', {'quiz': quiz, 'questions': questions,'taken': taken})
 
 def submit_quiz(request, quiz_id):
     context = {}
+
+    quiz = get_object_or_404(Quiz, pk=quiz_id)
+    user = request.user  # Assuming user is authenticated
+ 
     if request.method == 'POST':
-        quiz = get_object_or_404(Quiz, pk=quiz_id)
-        user = request.user  # Assuming user is authenticated
+
         quiz_taker = QuizTaker.objects.create(user=user, quiz=quiz)
-        
-        quiz_score = 0
+
         for question in quiz.question_set.all():
             choice_id = request.POST.get(f'question_{question.id}', None)
             if choice_id:
                 selected_choice = Choice.objects.get(id=choice_id)
                 if selected_choice.is_correct:
-                    quiz_score += 1
-
-        user.quiz_score = quiz_score
-        user.save()
+                    quiz_taker.quiz_score += 1.0
+        
+        quiz_taker.save()
         
         return redirect('quiz_result', quiz_id=quiz.id)
 
 def quiz_result(request, quiz_id):
+    context = {}
     quiz = get_object_or_404(Quiz, pk=quiz_id)
     user = request.user  # Assuming user is authenticated
-    quiz_taker = QuizTaker.objects.filter(user=user, quiz=quiz).first()
-    return render(request, 'quiz_result.html', {'quiz_taker': quiz_taker})
+    quiz_taker = QuizTaker.objects.get(user=user, quiz=quiz)
+    context['quiz_taker'] = quiz_taker
+    return render(request, 'quiz_result.html', context)
 
 
 def create_quiz(request):

@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm, AccountAuthenticationForm, AccountUpdateForm
 from blog.models import BlogPost
 from account.models import Account
+from quiz.models import *
 
 def registration_view(request):
 	context={}
@@ -75,6 +76,8 @@ def account_view(request):
 
 	accounts = Account.objects.all()
 	context['accounts'] = accounts
+	quiz_takers = QuizTaker.objects.all()
+	context['quiz_taker'] = quiz_takers
 
 	if request.POST:
 		form = AccountUpdateForm(request.POST, instance=request.user)

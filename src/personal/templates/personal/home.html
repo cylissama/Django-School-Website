@@ -53,6 +53,7 @@
 		<!-- blog feed -->
 		<div class="left-column col-lg-7 offset-lg-1">
 
+			<!-- This is the smaller view for when the website is condensed -->
 			<!-- Top 'create post' bar -->
 			<div class="d-lg-none mb-3">
 				<div class="card m-auto d-flex flex-column p-3">
@@ -93,6 +94,8 @@
 			<div class="card create-post-bar d-flex flex-column p-3">
 				<img class="img-fluid d-block m-auto pb-2" src="{% static 'jollyroger.png' %}" width="72" height="72">
 				<p class="lead">"An idiot admires complexity, a genius admires simplicity" -Terry A. Davis</p>
+				<hr/>
+				<p class="m-auto"><a class="btn btn-primary" href="{% url 'study_page' %}" class="btn btn-primary">Study</a></p>
 				<hr/>
 				<p class="m-auto"><a class="btn btn-primary" href="{% url 'blog:create' %}">Create post</a></p>
 				<hr/>

@@ -1,7 +1,13 @@
 <!-- quiz/templates/quiz/start_quiz.html -->
 
 {% extends "base.html" %}
+
 {% block content %}
+
+{% if taken == 1 %}
+  <h1> You have already taken this quiz: {{ quiz.name }}</h1>
+  <h1> <a class="btn btn-primary" href="{% url 'home' %}" role="button">Go Home</a> </h1>
+{% else %}
   <h1>{{ quiz.name }}</h1>
   <form method="post" action="{% url 'submit_quiz' quiz.id %}">
     {% csrf_token %}
@@ -18,4 +24,5 @@
     {% endfor %}
     <input type="submit" value="Submit">
   </form>
+{% endif %}
 {% endblock %}

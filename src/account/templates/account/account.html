@@ -87,8 +87,8 @@
 </div>
 
 <div class="container">
-	<h3 class="mb-10 p-3 d-flex font-weight-normal justify-content-center">Students</h3>
 	{% if user.is_admin %}
+	<h3 class="mb-10 p-3 d-flex font-weight-normal justify-content-center">Students</h3>
     <ul class="list-group mx-auto blog-posts wrapper">
 		{% for account in accounts %}
 						<li class="list-group-item border-0">
@@ -106,7 +106,8 @@
 							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							      </div>
 							      <div class="modal-body">
-							      	Student Score: {{account.quiz_score}} 
+									{% if quiz_takers.objects%}
+							      	Student Score: {{q}} 
 							      </div>
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>

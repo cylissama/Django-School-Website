@@ -7,6 +7,7 @@ from account.models import Account
 
 class Quiz(models.Model):
     name = models.CharField(max_length=255)
+    type = models.CharField(max_length=255, default="none")
     description = models.TextField(default="empty")
 
     def __str__(self):
@@ -31,6 +32,7 @@ class QuizTaker(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     date_taken = models.DateTimeField(auto_now_add=True)
+    quiz_score = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.user.username} took {self.quiz.name} on {self.date_taken}"

@@ -1,15 +1,59 @@
-
 {% extends "base.html" %}
+
 {% block content %}
+
+<style type="text/css">
+
+	@media (max-width: 768px) { 
+		.right-column{
+			margin-left: 0px;
+		}
+	}
+
+	@media (min-width: 768px) { 
+		.right-column{
+			margin-left: 20px;
+		}
+	}
+
+	.blog-post-container{
+		margin-bottom: 20px;
+		width: 100%;
+	}
+	.create-post-bar{
+		background-color: #fff;
+		margin-bottom:20px;
+	}
+
+	.left-column{
+		padding:0px;
+	}
+
+	.right-column{
+		padding:0px;
+	}
+	.lead{
+		font-size: 17px;
+	}
+	.img {
+	  display: block;
+	  max-width: 100%;
+	  height: auto;
+	}
+	
+</style>
+
   <h1>Create a New Quiz</h1>
-  <form method="post">
+
+<form method="post">
+    <div class="mb-3">
     {% csrf_token %}
     {{ form.as_p }}
     
     <!-- Formset for adding questions -->
     {{ question_formset.management_form }}
     {% for form in question_formset.forms %}
-      {{ form.as_table }}
+      <div class="form-text">{{ form.as_table }}</div>
       <!-- Formset for adding choices -->
       {{ choice_formset.management_form }}
       {% for choice_form in form.choices.forms %}
@@ -18,11 +62,11 @@
     {% endfor %}
     
     <!-- Add more questions and choices -->
-    <button type="button" id="add-question">Add Question</button>
-    <button type="button" class="add-choice">Add Choice</button>
-    
-    <button type="submit">Create Quiz</button>
-  </form>
+    <button type="button" class="btn btn-primary" id="add-question">Add Question</button>
+    <button type="button" class="btn btn-primary add-choice">Add Choice</button>
+    <button type="submit" class="btn btn-primary">Create Quiz</button>
+  </div>
+</form>
 
   <script>
     // JavaScript to add new formsets for questions and choices
@@ -38,4 +82,5 @@
       });
     });
   </script>
+
 {% endblock %}
