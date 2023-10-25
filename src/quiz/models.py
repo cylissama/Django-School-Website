@@ -33,6 +33,7 @@ class QuizTaker(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     date_taken = models.DateTimeField(auto_now_add=True)
     quiz_score = models.IntegerField(default=0)
+    attempts = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.user.username} took {self.quiz.name} on {self.date_taken}"

@@ -77,7 +77,7 @@ def account_view(request):
 	accounts = Account.objects.all()
 	context['accounts'] = accounts
 	quiz_takers = QuizTaker.objects.all()
-	context['quiz_taker'] = quiz_takers
+	context['quiz_takers'] = quiz_takers
 
 	if request.POST:
 		form = AccountUpdateForm(request.POST, instance=request.user)

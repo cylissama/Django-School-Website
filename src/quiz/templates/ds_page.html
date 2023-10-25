@@ -47,7 +47,7 @@
 
 <div class="card text-center p-3">
   <div class="card-body">
-    <h2 class="card-title">Math</h2>
+    <h2 class="card-title">Writing</h2>
   </div>
 </div>
 
@@ -58,16 +58,15 @@
       <div class="card">
         <div class="card-body">
           <h3 class="card-title">Quizzes</h3>
-          <p class="card-text">Take math quizzes.</p>
+          <p class="card-text">Take Writing quizzes.</p>
 
           <ul>
             {% for quiz in quizzes %}
-              {% if quiz.type == 'Math' %}
+              {% if quiz.type == 'DS' %}
               <li><a href="{% url 'start_quiz' quiz.id %}">{{ quiz.name }}</a></li>
               {% endif %}
             {% endfor %}
           </ul>
-
         </div>
       </div>
     </div>

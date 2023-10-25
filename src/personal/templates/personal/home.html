@@ -94,14 +94,11 @@
 			<div class="card create-post-bar d-flex flex-column p-3">
 				<img class="img-fluid d-block m-auto pb-2" src="{% static 'jollyroger.png' %}" width="72" height="72">
 				<p class="lead">"An idiot admires complexity, a genius admires simplicity" -Terry A. Davis</p>
-				<hr/>
+				
 				<p class="m-auto"><a class="btn btn-primary" href="{% url 'study_page' %}" class="btn btn-primary">Study</a></p>
-				<hr/>
+				<hr>
 				<p class="m-auto"><a class="btn btn-primary" href="{% url 'blog:create' %}">Create post</a></p>
-				<hr/>
-				<p class="m-auto"><a class="btn btn-primary" href="{% url 'quiz_list' %}">Take Quiz</a></p>
-				<hr/>
-				<p class="m-auto"><a class="btn btn-primary" href="{% url 'create_quiz' %}" class="btn btn-primary">Create a Quiz</a></p>
+				<!-- <p class="m-auto"><a class="btn btn-primary" href="{% url 'create_quiz' %}" class="btn btn-primary">Create a Quiz</a></p> -->
 
 			</div>
 		</div>
