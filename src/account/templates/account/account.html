@@ -99,7 +99,7 @@
 					<div class="card-body">
 						{% for quiz_taker in quiz_takers %}
 							{% if quiz_taker.user == account %}
-								<h5 class="card-subtitle mb-2 text-muted">{{quiz_taker.quiz}}</h5>
+								<h5 class="card-subtitle mb-2 text-muted">{{quiz_taker.quiz.type}}: {{quiz_taker.quiz}}</h5>
 								<h6>scored {{quiz_taker.quiz_score}}</h6>
 							{% endif %}
 						{% endfor %}

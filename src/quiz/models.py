@@ -37,3 +37,4 @@ class QuizTaker(models.Model):
 
     def __str__(self):
         return f"{self.user.username} took {self.quiz.name} on {self.date_taken}"
+    

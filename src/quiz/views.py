@@ -46,24 +46,24 @@ def quiz_list(request):
 def start_quiz(request, quiz_id):
     context = {}
     taken = 0
-
     user = request.user  # Assuming user is authenticated
     quiz = get_object_or_404(Quiz, pk=quiz_id)
     questions = Question.objects.filter(quiz=quiz)
 
     if QuizTaker.objects.filter(user=user, quiz=quiz).exists():
         quiz_taker = QuizTaker.objects.get(user=user, quiz=quiz)
-        taken = 1
         print("getting user")
     else:
         quiz_taker = QuizTaker.objects.create(user=user, quiz=quiz)
         print("creating user")
 
-    quiz_taker.attempts += 1
-    print(quiz_taker.attempts)
-
     if quiz_taker.attempts >= 3:
         taken = 1
+    else:
+        print(quiz_taker.attempts)
+        quiz_taker.attempts += 1
+        quiz_taker.save()
+
 
     return render(request, 'start_quiz.html', {'taken': taken, 'quiz': quiz, 'questions': questions, 'quiz_taker': quiz_taker})
 
