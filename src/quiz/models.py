@@ -38,3 +38,11 @@ class QuizTaker(models.Model):
     def __str__(self):
         return f"{self.user.username} took {self.quiz.name} on {self.date_taken}"
     
+class SubmissionAttempts(models.Model):
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    taker = models.ForeignKey(QuizTaker, on_delete=models.CASCADE)
+    chosen = models.ForeignKey(Choice, on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return '/Question/-> %s                /Answer/-> %s' % (self.chosen.question, self.chosen.text) 

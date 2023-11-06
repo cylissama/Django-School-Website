@@ -74,6 +74,8 @@ def account_view(request):
 
 	context = {}
 
+	attempts = SubmissionAttempts.objects.all()
+	context['attempts'] = attempts
 	accounts = Account.objects.all()
 	context['accounts'] = accounts
 	quiz_takers = QuizTaker.objects.all()

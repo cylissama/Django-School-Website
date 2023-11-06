@@ -45,6 +45,8 @@
 	
 </style>
 
+<link rel="stylesheet" href="bootstrap.css" />
+
 <div class="card text-center p-3">
   <div class="card-body">
     <h2 class="card-title">Math</h2>
@@ -64,6 +66,13 @@
             {% for quiz in quizzes %}
               {% if quiz.type == 'Math' %}
               <li><a href="{% url 'start_quiz' quiz.id %}">{{ quiz.name }}</a></li>
+
+			  {% for taker in quiz_takers %}
+				{% if taker.user == user and taker.quiz == quiz %}
+					<small> Taken attempts {{ taker.attempts }}  out of 3 </small>
+				{% endif %}
+			  {% endfor %}
+
               {% endif %}
             {% endfor %}
           </ul>
@@ -75,8 +84,10 @@
     <div class="col-sm-6 mb-3 mb-sm-0">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+			{% if user.is_admin %}
+			<h3> Admin Tools </h3>
+			<h5 class="card-title"><a href="{% url 'create_quiz' %}">Create Quiz</a> </h5>
+			{% endif %}
         </div>
       </div>
     </div>

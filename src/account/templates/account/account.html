@@ -72,7 +72,6 @@
 
 </div>
 
-
 <div class="container d-flex flex-column pb-3">
       <h3 class="mb-10 p-3 d-flex font-weight-normal justify-content-center">Your posts</h3>
       {% if blog_posts %}
@@ -91,48 +90,51 @@
 	<h3 class="mb-10 p-3 d-flex font-weight-normal justify-content-center">Students</h3>
     <ul class="list-group mx-auto blog-posts wrapper">
 		{% for account in accounts %}
-			<li class="list-group-item border-0">
 			
-				<div class="card">
-					<h4 class="card-title">{{account.username}}</h4>
-					
-					<div class="card-body">
-						{% for quiz_taker in quiz_takers %}
-							{% if quiz_taker.user == account %}
-								<h5 class="card-subtitle mb-2 text-muted">{{quiz_taker.quiz.type}}: {{quiz_taker.quiz}}</h5>
-								<h6>scored {{quiz_taker.quiz_score}}</h6>
-							{% endif %}
-						{% endfor %}
+				<div class="row">
+					<div class="col">
+						<div class="card">
+							<h4 class="card-title">{{account.username}}</h4>
+							<div class="card-body">
+								{% for quiz_taker in quiz_takers %}
+									{% if quiz_taker.user == account %}
+										<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+											{{quiz_taker.quiz.type}}: {{quiz_taker.quiz}}
+										</button>
+										<h6>scored {{quiz_taker.quiz_score}}</h6>
+										<div class="card p-3">
+											<div class="card-body">
+												{% for attempt in attempts %}
+													{% if attempt.taker == quiz_taker and attempt.quiz == quiz_taker.quiz %}
+														<h3>--------</h3>{{attempt}}
+													{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+										
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
 					</div>
 				</div>
-
-				<!-- Button trigger modal
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-					{{account.username}} , {{account.email}}
-				</button>
-
-
-				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Confirm</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-						<a href="#"> Go to scores</a>
-						</div>
-						<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-						</div>
-					</div>
-					</div>
-				</div>
-				-->
-			</li>
+			
 		{% endfor %}
 		</ul>
 	{% endif %}
 </div>
 
+<script>
+$('#exampleModal').on('show.bs.modal', function (event) {
+	var button = $(event.relatedTarget) // Button that triggered the modal
+	var recipient = button.data('whatever') // Extract info from data-* attributes
+	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+	var modal = $(this)
+	modal.find('.modal-title').text('New message to ' + recipient)
+	modal.find('.modal-body input').val(recipient)
+  })
+</script>
+
 {% endblock content %}
+

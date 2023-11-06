@@ -43,26 +43,50 @@
 	
 </style>
 
-  <h1>Create a New Quiz</h1>
+<form action="/create_quiz/" method="post">
+	{% csrf_token %}
+
+	<h2>Create a Quiz</h2>
+	<label for="quiz_name"> Name:  </label>
+	<input id="quiz_name" type="text" name="quiz_name" maxlength="255" required>
+	<label for="quiz_desc"> Description:  </label>
+	<input id="quiz_desc" type="text" name="quiz_desc" maxlength="255" required>
+	<label for="quiz_type"> Type:  </label>
+	<input id="quiz_type" type="text" name="quiz_type" maxlength="255" required>
+
+	<input type="submit"POST value="submit">
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<h1>Create a New Quiz</h1>
 
 <form method="post">
     <div class="mb-3">
     {% csrf_token %}
     {{ form.as_p }}
     
-    <!-- Formset for adding questions -->
+
     {{ question_formset.management_form }}
     {% for form in question_formset.forms %}
       <div class="form-text">{{ form.as_table }}</div>
-      <!-- Formset for adding choices -->
+
       {{ choice_formset.management_form }}
       {% for choice_form in form.choices.forms %}
         {{ choice_form.as_table }}
       {% endfor %}
     {% endfor %}
-    
-    <!-- Add more questions and choices -->
-    <button type="button" class="btn btn-primary" id="add-question">Add Question</button>
+
     <button type="button" class="btn btn-primary add-choice">Add Choice</button>
     <button type="submit" class="btn btn-primary">Create Quiz</button>
   </div>
@@ -83,4 +107,5 @@
     });
   </script>
 
+-->
 {% endblock %}

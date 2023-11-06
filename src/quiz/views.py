@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Quiz, Question, Choice, QuizTaker
+from django.http import HttpResponseRedirect 
+from .models import Quiz, Question, Choice, QuizTaker, SubmissionAttempts
 from account.models import *
 from templates import *
-from .forms import CreateQuizForm
+from .forms import CreateQuizForm, QuizForm
 from .forms import QuestionFormSet, ChoiceFormSet
+from mysite.urls import *
 
 def display_score(request, quiz_taker):
     context = {}
@@ -18,24 +20,40 @@ def study_view(request):
 def math_view(request):
     context = {}
     quizzes = Quiz.objects.all()
+    user = request.user
+    quiz_takers = QuizTaker.objects.all()
+    context['quiz_takers'] = quiz_takers
+    context['user'] = user
     context['quizzes'] = quizzes
     return render(request, 'math_page.html', context)
 
 def cs_view(request):
     context = {}
     quizzes = Quiz.objects.all()
+    user = request.user
+    quiz_takers = QuizTaker.objects.all()
+    context['quiz_takers'] = quiz_takers
+    context['user'] = user
     context['quizzes'] = quizzes
     return render(request, 'cs_page.html', context)
 
 def ds_view(request):
     context = {}
     quizzes = Quiz.objects.all()
+    user = request.user
+    quiz_takers = QuizTaker.objects.all()
+    context['quiz_takers'] = quiz_takers
+    context['user'] = user
     context['quizzes'] = quizzes
     return render(request, 'ds_page.html', context)
 
 def reading_view(request):
     context = {}
     quizzes = Quiz.objects.all()
+    user = request.user
+    quiz_takers = QuizTaker.objects.all()
+    context['quiz_takers'] = quiz_takers
+    context['user'] = user
     context['quizzes'] = quizzes
     return render(request, 'reading_page.html', context)
 
@@ -82,12 +100,14 @@ def submit_quiz(request, quiz_id):
             quiz_taker = QuizTaker.objects.create(user=user, quiz=quiz)
             print("creating user")
 
-
+        #reset score on next attempt
+        quiz_taker.quiz_score = 0
 
         for question in quiz.question_set.all():
             choice_id = request.POST.get(f'question_{question.id}', None)
             if choice_id:
                 selected_choice = Choice.objects.get(id=choice_id)
+                SubmissionAttempts.objects.create(quiz=quiz, taker=quiz_taker, chosen=selected_choice)
                 if selected_choice.is_correct:
                     quiz_taker.quiz_score += 1.0
         
@@ -105,35 +125,11 @@ def quiz_result(request, quiz_id):
 
 
 def create_quiz(request):
-    if request.method == 'POST':
-        form = CreateQuizForm(request.POST)
-        question_formset = QuestionFormSet(request.POST, prefix='questions')
-        choice_formset = ChoiceFormSet(request.POST, prefix='choices')
-        
-        if form.is_valid() and question_formset.is_valid() and choice_formset.is_valid():
-            # Save the quiz
-            quiz = form.save()
-            
-            # Save the questions
-            questions = question_formset.save(commit=False)
-            for question in questions:
-                question.quiz = quiz
-                question.save()
-                
-            # Save the choices
-            choices = choice_formset.save(commit=False)
-            for choice in choices:
-                choice.question = questions[0]  # Assuming all choices are for the first question
-                choice.save()
-            
-            return redirect('quiz_list')  # Redirect to the quiz list page after quiz creation
+    if request.method == "POST":
+        form=QuizForm(request.POST)
+        if form.is_valid():
+            return redirect(request,"create_quiz.html")
     else:
-        form = CreateQuizForm()
-        question_formset = QuestionFormSet(prefix='questions')
-        choice_formset = ChoiceFormSet(prefix='choices')
+        form=QuizForm()
     
-    return render(request, 'create_quiz.html', {
-        'form': form,
-        'question_formset': question_formset,
-        'choice_formset': choice_formset,
-    })
+    return render(request, "create_quiz.html", {"form": form})

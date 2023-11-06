@@ -1,8 +1,8 @@
 {\rtf1\ansi\ansicpg1252\cocoartf2709
 \cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\froman\fcharset0 Times-Roman;}
-{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red16\green60\blue192;}
-{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c6667\c33333\c80000;}
-\margl1440\margr1440\vieww21760\viewh13300\viewkind0
+{\colortbl;\red255\green255\blue255;\red16\green60\blue192;}
+{\*\expandedcolortbl;;\cssrgb\c6667\c33333\c80000;}
+\margl1440\margr1440\vieww22840\viewh14300\viewkind0
 \deftab720
 \pard\pardeftab720\partightenfactor0
 
@@ -45,15 +45,35 @@ For this quiz model we need to break down the quizzes into a few parts. The Quiz
 We then link the urls create in the separate files to the main url sheet inside mystic/urls. This will let us use the urls inside the main page of our website or another page we would like to display. \
 \
 The final part of this is using Bootstrap to make everything look nice. A simple install form the bootstrap documentation will get us setup and then we can start to format the pages to our liking. More detail can be see inside the source code.\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97Phase 2\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+In phase 2 we make some adjustments to the quiz models and create new pages for different learning subjects.\
+\
+First let\'92s update our quiz models by adding new classes. We need a QuizTaker model that has the following attributes: user, quiz, date_taken, quiz)score, and attempts. Next we create a SubmissionAttempts model to help keep track of submissions and what they include. We add the following attributes to that: quiz, taker, and chosen which are all foreign key relations to their respective fields. \
+\
+We also update the quiz class to include the type, ie Math, Reading, CS, Writing.\
+\
+Make sure to make migrations after adding them so that we can continue to use them throughout the project.\
+\
+Next we will create out html templates for the study page, CS, Math, Reading, and writing pages. Reference the Math.html for all the subjects and just copy and paste those because they are almost all the same except for a few titles. Once these are created we can linked them to their urls in the urls.py file.\
+\
+Now we must create the views for these html so that we can access them via the other webpages.\
+\
+We simply just add a study view and a view for each subject, and pass the context through containing the quiz taker objects and quiz objects.\
+\
+Moving on to updates within the Account app. \
+\
+I have added functionality for the admin or teacher accounts to see all students scores and attempts at various quizzes. This is done with the Django logic inside the account html file. The changes for context are also passes within the view, you can get more detail looking at the code there.\
 
 \f1\fs24 \
 \
 
-\f0\fs29\fsmilli14667 Other apps that have been created for this project include, Blog(the posts), and Quiz. There is one other app implemented called hit_count that is user created linked here: {\field{\*\fldinst{HYPERLINK "https://django-hitcount.readthedocs.io/en/latest/overview.html"}}{\fldrslt \cf3 \ul \ulc3 https://django-hitcount.readthedocs.io/en/latest/overview.html}} , this was used to track hit count for the websites.
+\f0\fs29\fsmilli14667 Other apps that have been created for this project include, Blog(the posts), and Quiz. There is one other app implemented called hit_count that is user created linked here: {\field{\*\fldinst{HYPERLINK "https://django-hitcount.readthedocs.io/en/latest/overview.html"}}{\fldrslt \cf2 \ul \ulc2 https://django-hitcount.readthedocs.io/en/latest/overview.html}} , this was used to track hit count for the websites.
 \f1\fs24 \
 \
 
-\f0\fs29\fsmilli14667 One more important thing to implement is Bootstrap. Bootstrap is frontend toolkit that allows for further customization of html. This was used to make the website more responsive and look much better. Linked is the bootstrap docs: {\field{\*\fldinst{HYPERLINK "https://getbootstrap.com/docs/5.3/getting-started/introduction/"}}{\fldrslt \cf3 \ul \ulc3 https://getbootstrap.com/docs/5.3/getting-started/introduction/}}\cf3 \ul \ulc3  .
+\f0\fs29\fsmilli14667 One more important thing to implement is Bootstrap. Bootstrap is frontend toolkit that allows for further customization of html. This was used to make the website more responsive and look much better. Linked is the bootstrap docs: {\field{\*\fldinst{HYPERLINK "https://getbootstrap.com/docs/5.3/getting-started/introduction/"}}{\fldrslt \cf2 \ul \ulc2 https://getbootstrap.com/docs/5.3/getting-started/introduction/}}\cf2 \ul \ulc2  .
 \f1\fs24 \cf0 \ulnone \
 \
 }
