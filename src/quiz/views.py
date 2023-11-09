@@ -103,14 +103,18 @@ def submit_quiz(request, quiz_id):
         #reset score on next attempt
         quiz_taker.quiz_score = 0
 
+        totQ = 0.00
         for question in quiz.question_set.all():
+            totQ = totQ + 1
             choice_id = request.POST.get(f'question_{question.id}', None)
             if choice_id:
                 selected_choice = Choice.objects.get(id=choice_id)
                 SubmissionAttempts.objects.create(quiz=quiz, taker=quiz_taker, chosen=selected_choice)
                 if selected_choice.is_correct:
                     quiz_taker.quiz_score += 1.0
-        
+
+        quiz_taker.quiz_score = (quiz_taker.quiz_score / totQ) * 100.00
+
         quiz_taker.save()
         
         return redirect('quiz_result', quiz_id=quiz.id)

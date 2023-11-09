@@ -33,6 +33,7 @@ class QuizTaker(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     date_taken = models.DateTimeField(auto_now_add=True)
     quiz_score = models.IntegerField(default=0)
+    percentage = models.DecimalField(max_digits=3, decimal_places=2, default=0.0)
     attempts = models.IntegerField(default=0)
 
     def __str__(self):

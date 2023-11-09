@@ -41,13 +41,13 @@
         {% endif %}
       </a>
 
-      {% if request.path == '/' %}
+      
 
       <form class="col-12 col-lg-auto mb-3 mb-lg-0 px-2" role="search" method="get">
         <input class="form-control" aria-label="Search" type="search" name="q" id="id_q" placeholder="Search...">
       </form>
       
-      {% endif %}
+      
 
       <ul class="nav">
         {% if request.user.is_authenticated %}
