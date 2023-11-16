@@ -37,7 +37,7 @@ class QuizTaker(models.Model):
     attempts = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.user.username} took {self.quiz.name} on {self.date_taken}"
+        return f"{self.user.username} took {self.quiz.name}"
     
 class SubmissionAttempts(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)

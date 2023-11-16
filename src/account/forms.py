@@ -2,7 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 
-from account.models import Account
+from account.models import Account, Grade, Subject, LetterGrades
+from quiz.models import *
 
 #to register
 class RegistrationForm(UserCreationForm):
@@ -11,6 +12,17 @@ class RegistrationForm(UserCreationForm):
 	class Meta:
 		model = Account 
 		fields = ("email", "username", "password1", "password2", "is_admin")
+
+class setGrade(forms.ModelForm):
+
+	student=forms.ModelChoiceField(queryset=Account.objects.all())
+	subject=forms.ModelChoiceField(queryset=Subject.objects.all())
+	letter_grade=forms.ModelChoiceField(queryset=LetterGrades.objects.all())
+
+	class Meta:
+		model = Grade
+		fields = ("student","letter_grade","subject") 
+
 
 #to authenticate
 class AccountAuthenticationForm(forms.ModelForm):

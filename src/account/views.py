@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm, AccountAuthenticationForm, AccountUpdateForm
 from blog.models import BlogPost
-from account.models import Account
+from account.models import *
 from quiz.models import *
+from account.forms import *
 
 def registration_view(request):
 	context={}
@@ -103,6 +104,45 @@ def account_view(request):
 	context['blog_posts'] = blog_posts
 
 	return render(request, 'account/account.html', context)
+
+
+def scores_view(request):
+	context = {}
+	quiz_takers=QuizTaker.objects.all()
+	context['quiz_takers']=quiz_takers
+	grades=Grade.objects.all()
+	context['grades']=grades
+
+	scores = []
+	names = []
+
+	for taker in quiz_takers:
+		if taker.user == request.user:
+			scores.append(taker.quiz_score)
+			names.append(taker.quiz.name)
+	
+	context['names'] = names
+	context['scores'] = scores
+
+	if 'q' in request.GET:
+		q=request.GET['q']
+		accounts = Account.objects.filter(username__icontains=q)
+	else:
+		accounts = Account.objects.all()
+	context['accounts']=accounts
+	
+
+	form = setGrade()
+	if request.method == 'POST':
+		form = setGrade(request.POST)
+		if form.is_valid():
+			form.save()
+	
+	context['form'] = form
+
+	
+	return render(request, 'account/scores.html', context)
+
 
 def must_authenticate_view(request):
 	return render(request, 'account/must_authenticate.html', {})

@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if user.is_admin %}
+
+<h1>Subject Grades</h1>
+
+<div>
+	<table class="table">
+		<thead>
+		<tr>
+			<th scope="col">Username</th>
+			<th scope="col">Math</th>
+			<th scope="col">Comp Sci</th>
+			<th scope="col">Reading</th>
+			<th scope="col">Writing</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for account in accounts %}
+			<tr>
+				<td>{{account.username}}</td>
+				<td>
+					{% for grade in grades %}
+						{% if grade.student == account and grade.subject == 'Math' %}
+							{{grade.letter_grade}}
+						{% endif %}
+					{% endfor %}
+				</td>
+				<td>
+					{% for grade in grades %}
+						{% if grade.student == account and grade.subject == 'Comp Sci' %}
+							{{grade.letter_grade}}
+						{% endif %}
+					{% endfor %}
+				</td>
+				<td>
+					{% for grade in grades %}
+						{% if grade.student == account and grade.subject == 'Reading' %}
+							{{grade.letter_grade}}
+						{% endif %}
+					{% endfor %}
+				</td>
+				<td>
+					{% for grade in grades %}
+						{% if grade.student == account and grade.subject == 'Writing' %}
+							{{grade.letter_grade}}
+						{% endif %}
+					{% endfor %}
+				</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+<div>
+<!--
+	<div>
+		<div class="chart-container" style="position: relative; height:40vh; width:80vw">
+			<canvas id="myChart"></canvas>
+		</div>
+		
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		
+		<script>
+			const ctx = document.getElementById('myChart');
+			
+			new Chart(ctx, {
+			type: 'pie',
+			data: {
+				labels: ['quiz1','quiz2','quiz3','quiz4','quiz5','quiz6','quiz7','quiz8'],
+				datasets: [{
+				label: 'Scores',
+				data: {{scores}},
+				borderWidth: 1
+				}]
+			},
+			options: {
+				indexAxis: 'y',
+				skipNull: true,
+				scales: {
+				y: {
+					beginAtZero: true
+				}
+				}
+			}
+			});
+		</script>
+	</div>
+-->
+<h1>Quizes</h1>
+
+<title>Text alignment</title> 
+<style> 
+	h1{text-align: center;} 
+</style> 
+
+<div class="row">
+	<div class="col-sm-6 mb-3 mb-sm-0">
+		{% for account in accounts %}
+		<div class="card p-3">
+			<div class="card-title">
+				<h5 style="margin-left: 25px;">{{account.username}}</h5>
+			</div>
+			<div class="card-body">
+				{% for quiz_taker in quiz_takers %} 
+					{% if quiz_taker.user == account %}
+							<p style="margin-left: 50px;">
+						<b>{{quiz_taker.quiz}}</b> <br>
+							<small> scored: {{quiz_taker.quiz_score}}</small> 
+						<br>
+					</p>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+<div>
+	<form class="d-flex p-3" method=POST>{% csrf_token %}
+		<input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search">
+		<button class="btn btn-outline-secondary" type="submit">Search</button>
+	</form>
+</div>
+
+	<h2>Enter Student Grade</h2>
+	<div class="col-lg-7 offset-lg-1">
+		<form method="POST">
+			{% csrf_token %}
+			{{form.as_p}}
+			<input type="submit" value="Submit"/>
+		</form>
+	</div>
+
+</div>
+
+<!-- IF STUDENT -->
+{% else %}
+<div>
+	<h2>Quizes</h2>
+	{% for quiz_taker in quiz_takers %} 
+		<p style="margin-left: 25px;">
+		{% if quiz_taker.user == user %}
+			<b>{{quiz_taker.quiz}}</b> <br>
+				<small> scored: {{quiz_taker.quiz_score}}</small> 
+			<br>
+		{% endif %}
+		</p>
+	{% endfor %}
+
+	<h2>Grades</h2>
+	{% for grade in grades %}
+		<p style="margin-left: 25px;">
+		{% if grade.student == user %}
+			{{grade.subject}} : {{grade.letter_grade}}  <br>
+		{% endif %}
+		</p>
+	{% endfor %}	
+</div>
+
+<div>
+	<h2>Percentiles</h2>
+</div>
+	<div>
+		<canvas id="myChart"></canvas>
+	</div>
+	
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	
+	<script>
+		const ctx = document.getElementById('myChart');
+		
+		new Chart(ctx, {
+		type: 'bar',
+		data: {
+			labels: ['quiz1','quiz2','quiz3','quiz4','quiz5','quiz6','quiz7','quiz8'],
+			datasets: [{
+			label: 'Scores',
+			data: {{scores}},
+			borderWidth: 1
+			}]
+		},
+		options: {
+			indexAxis: 'y',
+			skipNull: true,
+			scales: {
+			y: {
+				beginAtZero: true
+			}
+			}
+		}
+		});
+	</script>
+
+{% endif %}
+
+{% endblock content %}

@@ -7,12 +7,6 @@ from .forms import CreateQuizForm, QuizForm
 from .forms import QuestionFormSet, ChoiceFormSet
 from mysite.urls import *
 
-def display_score(request, quiz_taker):
-    context = {}
-    context['quiz_taker'] = quiz_taker
-
-    return render(request, 'disp_score.html', context)
-
 def study_view(request):
     context = {}
     return render(request, 'study_page.html', context)

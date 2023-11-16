@@ -2,11 +2,6 @@
 {% load static %}
 {% block content %}
  
-<!-- for chart js-->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
-
-<canvas id="chart" width="500" height="500"></canvas>
-
 <style type="text/css">
 	.form-signin {
 	max-width: 300px;
@@ -72,7 +67,6 @@
 			{% endif %}
 
 			<button class="btn btn-primary w-40 py-2 form-control" type="submit">Save Changes</button>
-
 	</form>
 
 </div>
@@ -101,9 +95,7 @@
 							<div class="card-body">
 								{% for quiz_taker in quiz_takers %}
 									{% if quiz_taker.user == account %}
-										<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											{{quiz_taker.quiz.type}}: {{quiz_taker.quiz}}
-										</button>
+										<a href="{% url 'scores' %}" class="btn btn-primary">{{quiz_taker.quiz.type}}: {{quiz_taker.quiz}}</a>
 										<h6>scored a {{quiz_taker.quiz_score}}%</h6>
 										<div class="card p-3">
 											<div class="card-body">
@@ -136,9 +128,7 @@
 						<div class="card-body">
 							{% for quiz_taker in quiz_takers %}
 								{% if quiz_taker.user == account %}
-									<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-										{{quiz_taker.quiz.type}}: {{quiz_taker.quiz}}
-									</button>
+									<a href="{% url 'scores' %}" class="btn btn-primary">{{quiz_taker.quiz.type}}: {{quiz_taker.quiz}}</a>
 									<h6>scored a {{quiz_taker.quiz_score}}%</h6>
 									<div class="card p-3">
 										<div class="card-body">
@@ -161,5 +151,34 @@
 {% endif %}
 </div>
 
+<div>
+	<canvas id="myChart"></canvas>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <script>
+	const ctx = document.getElementById('myChart');
+  
+	new Chart(ctx, {
+	  type: 'bar',
+	  data: {
+		labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+		datasets: [{
+		  label: '# of Votes',
+		  data: [5, 19, 3, 5, 2, 3],
+		  borderWidth: 1
+		}]
+	  },
+	  options: {
+		scales: {
+		  y: {
+			beginAtZero: true
+		  }
+		}
+	  }
+	});
+  </script>
+   
 {% endblock content %}
 

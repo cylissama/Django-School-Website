@@ -31,7 +31,7 @@ class MyAccountManager(BaseUserManager):
 
 		return user 
 
-#extends the AbstractBaseUser for an easier implementaino 
+#extends the AbstractBaseUser for an easier implementaion
 class Account(AbstractBaseUser):
 	email 					= models.EmailField(verbose_name="email", max_length=60, unique=True)
 	username 				= models.CharField(max_length=30, unique=True)
@@ -56,4 +56,24 @@ class Account(AbstractBaseUser):
 
 	def has_module_perms(self, app_label):
 		return True 
-		
+
+class Grade(models.Model):
+	
+	student = models.ForeignKey(Account, on_delete=models.CASCADE)
+	letter_grade = models.CharField(max_length=1, default="N")
+	subject = models.CharField(max_length=50, default="null")
+
+	def __str__(self):
+		return self.student.username + ": " + self.letter_grade + " in " + self.subject
+	
+class Subject(models.Model):
+	name = models.CharField(max_length=10, default="NA")
+
+	def __str__(self):
+		return self.name
+	
+class LetterGrades(models.Model):
+	letter = models.CharField(max_length=1, default="N")
+
+	def __str__(self):
+		return self.letter
