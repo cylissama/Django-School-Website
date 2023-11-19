@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if user.is_admin %}
+
+<div>
+	<h2>Set Student Grade</h2>
+	<div class="col-lg-7 offset-lg-1">
+		<form method="POST">
+			{% csrf_token %}
+			{{form.as_p}}
+			<input type="submit" value="Submit"/>
+		</form>
+	</div>
+</div>
+
+{% endif %}
+
+{% endblock content %}

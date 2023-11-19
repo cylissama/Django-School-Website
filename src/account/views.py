@@ -105,6 +105,30 @@ def account_view(request):
 
 	return render(request, 'account/account.html', context)
 
+def view_attempts(request):
+	context = {}
+
+	attempts = SubmissionAttempts.objects.all()
+	context['attempts'] = attempts
+	takers = QuizTaker.objects.all()
+	context['takers'] = takers
+
+	return render(request, 'view_attempts.html', context)
+
+def set_grade(request):
+	context = {}
+
+	form = setGrade()
+	if request.method == 'POST':
+		form = setGrade(request.POST)
+		if form.is_valid():
+			form.save()
+	
+	context['form'] = form
+
+
+	return render(request, 'set_grade.html', context)
+
 
 def scores_view(request):
 	context = {}

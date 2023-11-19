@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>Your atttempts</h1>
+<br>
+{% for attempt in attempts %}
+    {% for taker in takers%}
+        {% if attempt.taker == taker and taker.user == user %}
+        <h5>Quiz: {{attempt.quiz}}</h5>
+            <br>
+            Question: {{attempt.chosen.question}}
+            <br>
+            Responce: {{attempt.chosen.text}}
+            <br>
+            <br>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+{% endblock content %}

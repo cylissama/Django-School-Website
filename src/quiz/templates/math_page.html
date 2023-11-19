@@ -82,16 +82,17 @@
     </div>
 
     <div class="col-sm-6 mb-3 mb-sm-0">
-      <div class="card">
-        <div class="card-body">
+		<div class="card">
+		  <div class="card-body">
 			{% if user.is_admin %}
 			<h3> Admin Tools </h3>
 			<h5 class="card-title"><a href="{% url 'create_quiz' %}">Create Quiz</a> </h5>
+			{% else %}
+			<h3> More functionality coming soon!</h3>
 			{% endif %}
-        </div>
-      </div>
-    </div>
-
+		  </div>
+		</div>
+	</div>
   </div>
 </div>
 

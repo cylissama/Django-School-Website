@@ -97,16 +97,6 @@
 									{% if quiz_taker.user == account %}
 										<a href="{% url 'scores' %}" class="btn btn-primary">{{quiz_taker.quiz.type}}: {{quiz_taker.quiz}}</a>
 										<h6>scored a {{quiz_taker.quiz_score}}%</h6>
-										<div class="card p-3">
-											<div class="card-body">
-												{% for attempt in attempts %}
-													{% if attempt.taker == quiz_taker and attempt.quiz == quiz_taker.quiz %}
-														<h3>--------</h3>{{attempt}}
-													{% endif %}
-												{% endfor %}
-											</div>
-										</div>
-										
 									{% endif %}
 								{% endfor %}
 							</div>
@@ -118,7 +108,7 @@
 {% endif %}
 
 {% if not user.is_admin %}
-	<h3 class="mb-10 p-3 d-flex font-weight-normal justify-content-center">Scores and Attempts</h3>
+	<h3 class="mb-10 p-3 d-flex font-weight-normal justify-content-center">Quizes Taken</h3>
 	{% for account in accounts %}
 		{% if user.username == account.username %}
 			<div class="row">
@@ -130,18 +120,10 @@
 								{% if quiz_taker.user == account %}
 									<a href="{% url 'scores' %}" class="btn btn-primary">{{quiz_taker.quiz.type}}: {{quiz_taker.quiz}}</a>
 									<h6>scored a {{quiz_taker.quiz_score}}%</h6>
-									<div class="card p-3">
-										<div class="card-body">
-											{% for attempt in attempts %}
-												{% if attempt.taker == quiz_taker and attempt.quiz == quiz_taker.quiz %}
-													<h3>--------</h3>{{attempt}}
-												{% endif %}
-											{% endfor %}
-										</div>
-									</div>
 								{% endif %}
 							{% endfor %}
 						</div>
+						<small>click a quiz for more details</small>
 					</div>
 				</div>
 			</div>

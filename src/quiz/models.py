@@ -46,4 +46,4 @@ class SubmissionAttempts(models.Model):
 
 
     def __str__(self):
-        return '/Question/-> %s                /Answer/-> %s' % (self.chosen.question, self.chosen.text) 
+        return '%s %s' % (self.chosen.question, self.chosen.text) 

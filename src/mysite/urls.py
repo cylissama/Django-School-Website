@@ -32,6 +32,8 @@ from account.views import (
     must_authenticate_view,
     del_user,
     scores_view,
+    set_grade,
+    view_attempts,
 )
 
 
@@ -44,6 +46,8 @@ urlpatterns = [
     path('login/', login_view, name="login"),
     path('account/', account_view, name="account"),
     path('scores/', scores_view, name="scores"),
+    path('set_grade/', set_grade, name="set_grade"),
+    path('view_attempts/', view_attempts, name="view_attempts"),
     path('delete/', del_user, name="delete"),
     path('quiz/', include('quiz.urls')),
     path('must_authenticate/', must_authenticate_view, name="must_authenticate"),
