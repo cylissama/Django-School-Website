@@ -52,8 +52,10 @@
       <ul class="nav">
         {% if request.user.is_authenticated %}
           <li><a class="nav-link px-2 text-blue" aria-current="page" href="{% url 'home' %}"> Home </a></li>
+          <li><a class="nav-link px-2 text-white" href="{% url 'scores' %}"> Scores </a></li>
+          <li><a class="nav-link px-2 text-white" href="{% url 'study_page' %}"> Study </a></li>
           <li><a class="nav-link px-2 text-white" href="{% url 'account' %}"> Account </a></li>
-          <li><a class="nav-link px-2 text-white" href="{% url 'logout' %}"> Logout </a></li>
+          <li><a class="nav-link px-2 text-red" href="{% url 'logout' %}"> Logout </a></li>
         {% else %}
           <li><a class="nav-link px-2 text-blue" href="{% url 'home' %}">Home</a></li>
           <li><a class="nav-link px-2 text-white" href="{% url 'register' %}">Register</a></li>

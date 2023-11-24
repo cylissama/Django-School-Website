@@ -5,6 +5,7 @@ from blog.models import BlogPost
 from account.models import *
 from quiz.models import *
 from account.forms import *
+import json
 
 def registration_view(request):
 	context={}
@@ -115,6 +116,40 @@ def view_attempts(request):
 
 	return render(request, 'view_attempts.html', context)
 
+def search_results(request):
+	query = request.GET.get('query')
+
+	if query:
+		results = Grade.objects.filter(letter_grade__icontains=query).order_by('letter_grade')
+		combined_results = list(results)
+		num_results = len(combined_results)
+		if query == 'ascending':
+			combined_results = Grade.objects.all().order_by('letter_grade')
+			num_results = len(combined_results)
+		if query == 'descending':
+			combined_results = Grade.objects.all().order_by('-letter_grade')
+			num_results = len(combined_results)
+	else:
+		combined_results = Grade.objects.all()
+		num_results = 0
+
+	return render(request, 'search_results.html', {'results': combined_results, 'query': query, 'num_results': num_results })
+
+def search_results2(request):
+	query2 = request.GET.get('query2')
+
+	if query2:
+		results = Account.objects.filter(username__icontains=query2)
+		
+		combined_results = list(results)
+		num_results = len(combined_results)
+	else:
+		combined_results = Account.objects.all()
+		num_results = len(combined_results)
+
+	return render(request, 'search_results2.html', {'results': combined_results, 'query2': query2, 'num_results': num_results })
+
+
 def set_grade(request):
 	context = {}
 
@@ -129,6 +164,34 @@ def set_grade(request):
 
 	return render(request, 'set_grade.html', context)
 
+def pie_chart(request):
+	labels = []
+	data = []
+	Grades = Grade.objects.all()
+	for grade in Grades:
+		if(grade.letter_grade == 'A'):
+			labels.append(100)
+			data.append(grade.student.username)
+		elif(grade.letter_grade == 'B'):
+			labels.append(90)
+			data.append(grade.student.username)
+		elif(grade.letter_grade == 'C'):
+			labels.append(80)
+			data.append(grade.student.username)
+		elif(grade.letter_grade == 'D'):
+			labels.append(70)
+			data.append(grade.student.username)
+		elif(grade.letter_grade == 'F'):
+			labels.append(60)
+			data.append(grade.student.username)
+		else:
+			labels.append(0)
+			data.append(grade.student.username)
+
+	return render(request, 'pie_chart.html', {
+        'labels': labels,
+        'data': data,
+    })
 
 def scores_view(request):
 	context = {}
@@ -148,11 +211,36 @@ def scores_view(request):
 	context['names'] = names
 	context['scores'] = scores
 
-	if 'q' in request.GET:
-		q=request.GET['q']
-		accounts = Account.objects.filter(username__icontains=q)
-	else:
-		accounts = Account.objects.all()
+	data = {
+		'labels': names,
+		'values': scores,
+	}
+
+	context['chart_data'] = json.dumps(data)
+	
+	pielabels = []
+	piedata = ['A','B','C','D','F']
+	
+	for grade in grades:
+		if(grade.letter_grade == 'A'):
+			pielabels.append(100)
+		elif(grade.letter_grade == 'B'):
+			pielabels.append(80)
+		elif(grade.letter_grade == 'C'):
+			pielabels.append(70)
+		elif(grade.letter_grade == 'D'):
+			pielabels.append(60)
+		else:
+			pielabels.append(0)
+	piechartdata = {
+		'pielabels': pielabels,
+		'piedata': piedata,
+	}
+	context['piechartdata'] = json.dumps(piechartdata)
+
+
+	
+	accounts = Account.objects.all()
 	context['accounts']=accounts
 	
 

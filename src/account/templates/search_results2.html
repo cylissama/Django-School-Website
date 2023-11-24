@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Display search results -->
+<h1>Student Search Results</h1>
+
+<form action="{% url 'search_results2' %}" method="GET">
+    <input type="text" name="query2" placeholder="Search..." value="{{ query2 }}">
+    <button type="submit2">Search</button>
+</form>
+
+<p>Total results: {{ num_results }}</p>
+
+<ul>
+    {% for item in results %}
+        <li>{{ item.username }}</li> <!-- Replace 'your_field' with your actual field names -->
+    {% empty %}
+        <li>No results found</li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}

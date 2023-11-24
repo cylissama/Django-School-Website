@@ -4,8 +4,26 @@
 
 {% if user.is_admin %}
 
+<h3> Search </h3>
+<div>
+	<small class="p-2">Use 'ascending' or 'descending' for desired results</small>
+	<form class="p-2" action="{% url 'search_results' %}" method="GET">
+		{% csrf_token %}
+		<input type="text" name="query" placeholder="Search Letter Grades">
+		<button type="submit">Search</button>
+	</form>
+</div>
+
+<div>
+	<form class="p-2" action="{% url 'search_results2' %}" method="GET">
+		{% csrf_token %}
+		<input type="text" name="query2" placeholder="Search Student">
+		<button type="submit2">Search</button>
+	</form>
+</div>
+
+
 <h1>Subject Grades</h1>
-<a href="{% url 'set_grade' %}" class="btn btn-primary">Assign Grades</a>
 
 <div>
 	<table class="table">
@@ -55,42 +73,10 @@
 		</tbody>
 	</table>
 </div>
+<a href="{% url 'set_grade' %}" class="btn btn-primary">Assign Grades</a>
 
-<div>
+
 <!--
-	<div>
-		<div class="chart-container" style="position: relative; height:40vh; width:80vw">
-			<canvas id="myChart"></canvas>
-		</div>
-		
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-		
-		<script>
-			const ctx = document.getElementById('myChart');
-			
-			new Chart(ctx, {
-			type: 'pie',
-			data: {
-				labels: ['quiz1','quiz2','quiz3','quiz4','quiz5','quiz6','quiz7','quiz8'],
-				datasets: [{
-				label: 'Scores',
-				data: {{scores}},
-				borderWidth: 1
-				}]
-			},
-			options: {
-				indexAxis: 'y',
-				skipNull: true,
-				scales: {
-				y: {
-					beginAtZero: true
-				}
-				}
-			}
-			});
-		</script>
-	</div>
--->
 <h1>Quizes</h1>
 
 <title>Text alignment</title> 
@@ -98,29 +84,65 @@
 	h1{text-align: center;} 
 </style> 
 
-<div class="row">
-	<div class="col-sm-6 mb-3 mb-sm-0">
-		{% for account in accounts %}
-		<div class="card p-3">
-			<div class="card-title">
-				<h5 style="margin-left: 25px;">{{account.username}}</h5>
-			</div>
-			<div class="card-body">
-				{% for quiz_taker in quiz_takers %} 
-					{% if quiz_taker.user == account %}
-							<p style="margin-left: 50px;">
-						<b>{{quiz_taker.quiz}}</b> <br>
-							<small> scored: {{quiz_taker.quiz_score}}</small> 
-						<br>
-					</p>
-					{% endif %}
-				{% endfor %}
-			</div>
-		</div>
+{% for account in accounts %}
+<div class="card p-3">
+	<div class="card-title">
+		<h5 style="margin-left: 25px;">{{account.username}}</h5>
+	</div>
+	<div class="card-body">
+		{% for quiz_taker in quiz_takers %} 
+			{% if quiz_taker.user == account %}
+					<p style="margin-left: 50px;">
+				<b>{{quiz_taker.quiz}}</b> <br>
+					<small> scored: {{quiz_taker.quiz_score}}</small> 
+				<br>
+			</p>
+			{% endif %}
 		{% endfor %}
 	</div>
 </div>
+{% endfor %}
+-->
 
+<div class="">
+	<head>
+		<meta charset="UTF-8">
+		<title>Pie Chart Example</title>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	</head>
+	<body>
+		<canvas id="myPieChart" width="500" height="300"></canvas>
+
+		<script>
+			var ctx = document.getElementById('myPieChart').getContext('2d');
+			var piechartdata = JSON.parse('{{ piechartdata|safe }}');
+
+			var myPieChart = new Chart(ctx, {
+				type: 'pie',
+				data: {
+					labels: piechartdata.piedata,
+					datasets: [{
+						data: piechartdata.pielabels, // Example data values
+						backgroundColor: [
+						'rgba(255, 99, 132, 0.8)',
+						'rgba(54, 162, 235, 0.8)',
+						'rgba(255, 206, 86, 0.8)',
+						'rgba(75, 192, 192, 0.8)',
+						'rgba(153, 102, 255, 0.8)',
+						],
+						// Other dataset options like hover, border color, etc.
+					}]
+				},
+				options: {
+					responsive: true,
+        			maintainAspectRatio: false,
+					// Chart options (title, legend, etc.)
+				}
+			});
+		</script>
+		
+	</body>
+</div>
 <!-- IF STUDENT -->
 {% else %}
 <div>
@@ -146,38 +168,60 @@
 </div>
 
 <div>
-	<h2>Percentiles</h2>
+	<h2>Performance</h2>
 </div>
 	<div>
-		<canvas id="myChart"></canvas>
+		<canvas id="myChart" width="200" height=500"></canvas>
 	</div>
 	
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	
-	<script>
-		const ctx = document.getElementById('myChart');
-		
-		new Chart(ctx, {
-		type: 'bar',
-		data: {
-			labels: ['quiz1','quiz2','quiz3','quiz4','quiz5','quiz6','quiz7','quiz8'],
-			datasets: [{
-			label: 'Scores',
-			data: {{scores}},
-			borderWidth: 1
-			}]
-		},
-		options: {
-			indexAxis: 'y',
-			skipNull: true,
-			scales: {
-			y: {
-				beginAtZero: true
-			}
-			}
-		}
-		});
-	</script>
+    <script>
+        // Retrieve chart data passed from Django view
+        var data = JSON.parse('{{ chart_data|safe }}');
+
+        // Access the canvas element
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        // Create the chart
+        var myChart = new Chart(ctx, {
+            type: 'bar', // Specify the type of chart (bar, line, pie, etc.)
+            data: {
+                labels: data.labels, // Use the labels from Django
+                datasets: [{
+                    label: 'Scores', // Label for the dataset
+                    data: data.values, // Values from Django
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color settings
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                // Additional chart options (title, legend, etc.)
+				responsive: true,
+				maintainAspectRatio: false,
+				layout: {
+					padding: {
+						left: 10,
+						right: 10,
+						top: 10,
+						bottom: 10
+					}
+				},
+				scales: {
+					yAxes: [{
+						display: true,
+						ticks: {
+							beginAtZero: true,
+							min: 0, // Set the minimum value of y-axis to 0
+							max: 100, // Set the maximum value of y-axis to 100
+							stepSize: 10 // Adjust the step size if needed
+						}
+					}]
+				},
+            }
+        });
+    </script>
 
 {% endif %}
 

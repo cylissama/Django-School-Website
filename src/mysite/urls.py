@@ -24,17 +24,7 @@ from personal.views import (
     home_screen_view,
 )
 
-from account.views import (
-    registration_view,
-    logout_view,
-    login_view,
-    account_view,
-    must_authenticate_view,
-    del_user,
-    scores_view,
-    set_grade,
-    view_attempts,
-)
+from account.views import *
 
 
 urlpatterns = [
@@ -48,6 +38,9 @@ urlpatterns = [
     path('scores/', scores_view, name="scores"),
     path('set_grade/', set_grade, name="set_grade"),
     path('view_attempts/', view_attempts, name="view_attempts"),
+    path('search/', search_results, name='search_results'),
+    path('search2/', search_results2, name='search_results2'),
+    path('pie_chart/', pie_chart, name='pie_chart'),
     path('delete/', del_user, name="delete"),
     path('quiz/', include('quiz.urls')),
     path('must_authenticate/', must_authenticate_view, name="must_authenticate"),

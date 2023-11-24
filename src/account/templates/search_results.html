@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Display search results -->
+<h1>Grade Search Results</h1>
+<small>Use 'ascending' or 'descending' for desired results</small>
+<form action="{% url 'search_results' %}" method="GET">
+    <input type="text" name="query" placeholder="Search..." value="{{ query }}">
+    <button type="submit">Search</button>
+</form>
+
+<p>Total results: {{ num_results }}</p>
+
+<ul>
+    {% for item in results %}
+        <li>{{ item }}</li> <!-- Replace 'your_field' with your actual field names -->
+    {% empty %}
+        <li>No results found</li>
+    {% endfor %}
+</ul>
+
+
+{% endblock content %}
