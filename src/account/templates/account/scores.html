@@ -2,208 +2,419 @@
 {% load static %}
 {% block content %}
 
+<style>
+.div1 {
+    float: left;
+	text-align: center;
+}
+.div2 {
+    float: right;
+	text-align: center;
+}
+.div3 {
+	float: center;
+	text-align: center;
+}
+</style>
+
 {% if user.is_admin %}
+<div name="Top Row" class="p-1 row row-cols-1 row-cols-md-3">
+	<div name="Search" class="div3">
+		<div class="card h-100">
+			<div class="card-header">
+				<h5>
+					Search
+				</h5>
+			</div>
+			<small class="p-2">Use 'ascending' or 'descending' for desired results</small>
+			<div class="card-body">
 
-<h3> Search </h3>
-<div>
-	<small class="p-2">Use 'ascending' or 'descending' for desired results</small>
-	<form class="p-2" action="{% url 'search_results' %}" method="GET">
-		{% csrf_token %}
-		<input type="text" name="query" placeholder="Search Letter Grades">
-		<button type="submit">Search</button>
-	</form>
+				<form class="p-2" action="{% url 'search_results' %}" method="GET">
+					{% csrf_token %}
+					<input type="text" name="query" placeholder="Search Letter Grades">
+					<button type="submit">Search</button>
+				</form>
+
+				<form class="p-2" action="{% url 'search_results3' %}" method="GET">
+					{% csrf_token %}
+					<input type="text" name="query3" placeholder="Search Score">
+					<button type="submit3">Search</button>
+				</form>
+
+				<form class="p-2" action="{% url 'search_results2' %}" method="GET">
+					{% csrf_token %}
+					<input type="text" name="query2" placeholder="Search Student">
+					<button type="submit2">Search</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+	<div name="Info" class="div3">
+		<div class="card h-100">
+			<div class="card-header">
+				<h5>
+					Score Analysis
+				</h5>
+			</div>
+			<div class="card-body">
+					Here you can <b>search</b> grades, scores, and students
+					<br>
+					<br>
+					You can also <b>assign</b> grades and <b>view</b> scores
+					<br>
+					<br>
+					Below you can see <b>graphs</b> of <b>subject grades</b>
+			</div>
+		</div>
+	</div>
+
+	<div name="Assign Grades" class="div3">
+		<div class="card h-100">
+			<div class="card-header" style="text-align: center;">
+				<h5>
+					Assign Grades
+				</h5>
+			</div>
+			<div class="card-body">
+				<form id="myForm" method="POST">{% csrf_token %}
+					{{form.as_p}}
+					<input type="submit" class="btn btn-primary" value="Submit"/>
+				</form>
+			</div>
+			</div>
+	</div>
 </div>
 
-<div>
-	<form class="p-2" action="{% url 'search_results2' %}" method="GET">
-		{% csrf_token %}
-		<input type="text" name="query2" placeholder="Search Student">
-		<button type="submit2">Search</button>
-	</form>
-</div>
-
-
-<h1>Subject Grades</h1>
-
-<div>
-	<table class="table">
-		<thead>
-		<tr>
-			<th scope="col">Username</th>
-			<th scope="col">Math</th>
-			<th scope="col">Comp Sci</th>
-			<th scope="col">Reading</th>
-			<th scope="col">Writing</th>
-		</tr>
-		</thead>
-		<tbody>
-		{% for account in accounts %}
+<div name="Grades" class="p-1">
+	<div class="card">
+		<h5 class="card-header" style="text-align: center;">Grades</h5>
+		<table class="table">
+			<thead>
 			<tr>
-				<td>{{account.username}}</td>
-				<td>
-					{% for grade in grades %}
-						{% if grade.student == account and grade.subject == 'Math' %}
-							{{grade.letter_grade}}
-						{% endif %}
-					{% endfor %}
-				</td>
-				<td>
-					{% for grade in grades %}
-						{% if grade.student == account and grade.subject == 'Comp Sci' %}
-							{{grade.letter_grade}}
-						{% endif %}
-					{% endfor %}
-				</td>
-				<td>
-					{% for grade in grades %}
-						{% if grade.student == account and grade.subject == 'Reading' %}
-							{{grade.letter_grade}}
-						{% endif %}
-					{% endfor %}
-				</td>
-				<td>
-					{% for grade in grades %}
-						{% if grade.student == account and grade.subject == 'Writing' %}
-							{{grade.letter_grade}}
-						{% endif %}
-					{% endfor %}
-				</td>
+				<th scope="col">Username</th>
+				<th scope="col">Math</th>
+				<th scope="col">Comp Sci</th>
+				<th scope="col">Reading</th>
+				<th scope="col">Writing</th>
 			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
-</div>
-<a href="{% url 'set_grade' %}" class="btn btn-primary">Assign Grades</a>
-
-
-<!--
-<h1>Quizes</h1>
-
-<title>Text alignment</title> 
-<style> 
-	h1{text-align: center;} 
-</style> 
-
-{% for account in accounts %}
-<div class="card p-3">
-	<div class="card-title">
-		<h5 style="margin-left: 25px;">{{account.username}}</h5>
+			</thead>
+			<tbody>
+			{% for account in accounts %}
+				<tr>
+					<td>{{account.username}}</td>
+					<td>
+						{% for grade in grades %}
+							{% if grade.student == account and grade.subject == 'Math' %}
+								{{grade.letter_grade}}
+							{% endif %}
+						{% endfor %}
+					</td>
+					<td>
+						{% for grade in grades %}
+							{% if grade.student == account and grade.subject == 'Comp Sci' %}
+								{{grade.letter_grade}}
+							{% endif %}
+						{% endfor %}
+					</td>
+					<td>
+						{% for grade in grades %}
+							{% if grade.student == account and grade.subject == 'Reading' %}
+								{{grade.letter_grade}}
+							{% endif %}
+						{% endfor %}
+					</td>
+					<td>
+						{% for grade in grades %}
+							{% if grade.student == account and grade.subject == 'Writing' %}
+								{{grade.letter_grade}}
+							{% endif %}
+						{% endfor %}
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
 	</div>
-	<div class="card-body">
-		{% for quiz_taker in quiz_takers %} 
-			{% if quiz_taker.user == account %}
-					<p style="margin-left: 50px;">
-				<b>{{quiz_taker.quiz}}</b> <br>
-					<small> scored: {{quiz_taker.quiz_score}}</small> 
-				<br>
-			</p>
-			{% endif %}
-		{% endfor %}
-	</div>
 </div>
-{% endfor %}
--->
 
-<div class="">
-	<head>
-		<meta charset="UTF-8">
-		<title>Pie Chart Example</title>
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	</head>
-	<body>
-		<canvas id="myPieChart" width="500" height="300"></canvas>
-
-		<script>
-			var ctx = document.getElementById('myPieChart').getContext('2d');
-			var piechartdata = JSON.parse('{{ piechartdata|safe }}');
-
-			var myPieChart = new Chart(ctx, {
-				type: 'pie',
-				data: {
-					labels: piechartdata.piedata,
-					datasets: [{
-						data: piechartdata.pielabels, // Example data values
-						backgroundColor: [
-						'rgba(255, 99, 132, 0.8)',
-						'rgba(54, 162, 235, 0.8)',
-						'rgba(255, 206, 86, 0.8)',
-						'rgba(75, 192, 192, 0.8)',
-						'rgba(153, 102, 255, 0.8)',
-						],
-						// Other dataset options like hover, border color, etc.
-					}]
-				},
-				options: {
-					responsive: true,
-        			maintainAspectRatio: false,
-					// Chart options (title, legend, etc.)
-				}
-			});
-		</script>
+<div name="Graphs" class="p-1">
+	<div class="row row-cols-md-4">
+		<div name="Math" class="col">
+			<div class="card" style="height:25rem;">
+				<div class="card-header">
+				Math
+				</div>
+				<div class="card-body">
+					<head>
+						<meta charset="UTF-8">
+						<title>Pie Chart Example</title>
+						<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+					</head>
+					<body>
+						<canvas id="MathPie" width="500" height="300"></canvas>
 		
-	</body>
+						<script>
+							var ctx = document.getElementById('MathPie').getContext('2d');
+							var mathPie = JSON.parse('{{ mathPie|safe }}');
+		
+							var MathPie = new Chart(ctx, {
+								type: 'pie',
+								data: {
+									labels: mathPie.lGrades,
+									datasets: [{
+										data: mathPie.mathGrades, // Example data values
+										backgroundColor: [
+										'rgba(255, 99, 132, 0.8)',
+										'rgba(54, 162, 235, 0.8)',
+										'rgba(255, 206, 86, 0.8)',
+										'rgba(75, 192, 192, 0.8)',
+										'rgba(153, 102, 255, 0.8)',
+										],
+										// Other dataset options like hover, border color, etc.
+									}]
+								},
+								options: {
+									responsive: true,
+									maintainAspectRatio: false,
+									// Chart options (title, legend, etc.)
+								}
+							});
+						</script>
+						
+					</body>
+				</div>
+			</div>
+		</div>
+		<div name="Computer Science" class="col">
+			<div class="card" style="height:25rem;">
+				<div class="card-header">
+				Computer Science
+				</div>
+				<div class="card-body">
+					<head>
+						<meta charset="UTF-8">
+						<title>Pie Chart Example</title>
+						<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+					</head>
+					<body>
+						<canvas id="CompSciPie" width="500" height="300"></canvas>
+		
+						<script>
+							var ctx = document.getElementById('CompSciPie').getContext('2d');
+							var csPie = JSON.parse('{{ csPie|safe }}');
+		
+							var CompSciPie = new Chart(ctx, {
+								type: 'pie',
+								data: {
+									labels: csPie.lGrades,
+									datasets: [{
+										data: csPie.csGrades, // Example data values
+										backgroundColor: [
+										'rgba(255, 99, 132, 0.8)',
+										'rgba(54, 162, 235, 0.8)',
+										'rgba(255, 206, 86, 0.8)',
+										'rgba(75, 192, 192, 0.8)',
+										'rgba(153, 102, 255, 0.8)',
+										],
+										// Other dataset options like hover, border color, etc.
+									}]
+								},
+								options: {
+									responsive: true,
+									maintainAspectRatio: false,
+									// Chart options (title, legend, etc.)
+								}
+							});
+						</script>
+						
+					</body>
+				</div>
+			</div>
+		</div>
+		<div name="Reading" class="col">
+			<div class="card" style="height:25rem;">
+				<div class="card-header">
+				Reading
+				</div>
+				<div class="card-body">
+					<head>
+						<meta charset="UTF-8">
+						<title>Pie Chart Example</title>
+						<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+					</head>
+					<body>
+						<canvas id="ReadingPie" width="500" height="300"></canvas>
+		
+						<script>
+							var ctx = document.getElementById('ReadingPie').getContext('2d');
+							var readingPie = JSON.parse('{{ readingPie|safe }}');
+		
+							var ReadingPie = new Chart(ctx, {
+								type: 'pie',
+								data: {
+									labels: readingPie.lGrades,
+									datasets: [{
+										data: readingPie.readingGrades, // Example data values
+										backgroundColor: [
+										'rgba(255, 99, 132, 0.8)',
+										'rgba(54, 162, 235, 0.8)',
+										'rgba(255, 206, 86, 0.8)',
+										'rgba(75, 192, 192, 0.8)',
+										'rgba(153, 102, 255, 0.8)',
+										],
+										// Other dataset options like hover, border color, etc.
+									}]
+								},
+								options: {
+									responsive: true,
+									maintainAspectRatio: false,
+									// Chart options (title, legend, etc.)
+								}
+							});
+						</script>
+						
+					</body>
+				</div>
+			</div>
+		</div>
+		<div name="Writing" class="col">
+			<div class="card" style="height:25rem;">
+				<div class="card-header">
+				Writing
+				</div>
+				<div class="card-body">
+					<head>
+						<meta charset="UTF-8">
+						<title>Pie Chart Example</title>
+						<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+					</head>
+					<body>
+						<canvas id="WritingPie" width="500" height="300"></canvas>
+		
+						<script>
+							var ctx = document.getElementById('WritingPie').getContext('2d');
+							var writingPie = JSON.parse('{{ writingPie|safe }}');
+		
+							var WritingPie = new Chart(ctx, {
+								type: 'pie',
+								data: {
+									labels: writingPie.lGrades,
+									datasets: [{
+										data: writingPie.writingGrades, // Example data values
+										backgroundColor: [
+										'rgba(255, 99, 132, 0.8)',
+										'rgba(54, 162, 235, 0.8)',
+										'rgba(255, 206, 86, 0.8)',
+										'rgba(75, 192, 192, 0.8)',
+										'rgba(153, 102, 255, 0.8)',
+										],
+										// Other dataset options like hover, border color, etc.
+									}]
+								},
+								options: {
+									responsive: true,
+									maintainAspectRatio: false,
+									// Chart options (title, legend, etc.)
+								}
+							});
+						</script>
+						
+					</body>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-<!-- IF STUDENT -->
+
+<!---------------------IF STUDENT---------------------->
+
 {% else %}
-<div>
-	<h2>Quizes</h2>
-	{% for quiz_taker in quiz_takers %} 
-		<p style="margin-left: 25px;">
-		{% if quiz_taker.user == user %}
-			<b>{{quiz_taker.quiz}}</b> <br>
-				<small><a href="{% url 'view_attempts' %}"> scored: {{quiz_taker.quiz_score}}%</a></small>
-			<br>
-		{% endif %}
-		</p>
-	{% endfor %}
 
-	<h2>Grades</h2>
-	{% for grade in grades %}
-		<p style="margin-left: 25px;">
-		{% if grade.student == user %}
-			{{grade.subject}} : {{grade.letter_grade}}  <br>
-		{% endif %}
-		</p>
-	{% endfor %}	
+<div name="Top Row" class="p-1 row row-cols-1 row-cols-md-3">
+
+	<div name="Quizzes" class="div3 p-1">
+		<div class="card h-100">
+			<div class="card-header" style="text-align: center;">
+				<h2>Quizzes</h2>
+			</div>
+			<ul class="list-group list-group-flush">
+				{% for quiz_taker in quiz_takers %} 
+					{% if quiz_taker.user == user %}
+						<li class="list-group-item">{{quiz_taker.quiz}}  <a href="{% url 'view_attempts' %}"> scored: {{quiz_taker.quiz_score}}%</a></li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+
+	<div name="Info" class="div3 p-1">
+		<div class="card h-100">
+			<div class="card-header">
+				<h2>Score Analysis</h2>
+			</div>
+			<div class="card-body">
+				<br>
+				Here you can view your quiz scores check your grades, and view your performance graph
+			</div>
+			
+
+		</div>
+	</div>
+
+	<div name="Grades" class="div3 p-1">
+		<div class="card h-100">
+			<div class="card-header" style="text-align: center;">
+				<h2>Grades</h2>
+			</div>
+			{% for grade in grades %}
+				{% if grade.student == user %}
+					<b>{{grade.subject}}</b>{{grade.letter_grade}}<br>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+
 </div>
 
-<div>
-	<h2>Performance</h2>
-</div>
+<div name="Performance Graph" class="div3">
+	<h2>Performance Graph</h2>
+
 	<div>
-		<canvas id="myChart" width="200" height=500"></canvas>
+		<canvas id="myChart" width=200 height=500></canvas>
 	</div>
 	
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	
-    <script>
-        // Retrieve chart data passed from Django view
-        var data = JSON.parse('{{ chart_data|safe }}');
+	<script>
+		// Retrieve chart data passed from Django view
+		var data = JSON.parse('{{ chart_data|safe }}');
 
-        // Access the canvas element
-        var ctx = document.getElementById('myChart').getContext('2d');
+		// Access the canvas element
+		var ctx = document.getElementById('myChart').getContext('2d');
 
-        // Create the chart
-        var myChart = new Chart(ctx, {
-            type: 'bar', // Specify the type of chart (bar, line, pie, etc.)
-            data: {
-                labels: data.labels, // Use the labels from Django
-                datasets: [{
-                    label: 'Scores', // Label for the dataset
-                    data: data.values, // Values from Django
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color settings
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                // Additional chart options (title, legend, etc.)
+		// Create the chart
+		var myChart = new Chart(ctx, {
+			type: 'bar', // Specify the type of chart (bar, line, pie, etc.)
+			data: {
+				labels: data.labels, // Use the labels from Django
+				datasets: [{
+					label: 'Scores', // Label for the dataset
+					data: data.values, // Values from Django
+					backgroundColor:["blue", "green", "yellow", "red"], // Color settings
+					borderColor: 'rgba(75, 192, 192, 1)',
+					borderWidth: .5
+				}]
+			},
+			options: {
+				// Additional chart options (title, legend, etc.)
 				responsive: true,
 				maintainAspectRatio: false,
 				layout: {
 					padding: {
-						left: 10,
-						right: 10,
+						left: 100,
+						right: 100,
 						top: 10,
 						bottom: 10
 					}
@@ -219,9 +430,10 @@
 						}
 					}]
 				},
-            }
-        });
-    </script>
+			}
+		});
+	</script>
+</div>
 
 {% endif %}
 

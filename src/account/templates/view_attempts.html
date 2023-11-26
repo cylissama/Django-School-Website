@@ -4,18 +4,20 @@
 
 <h1>Your atttempts</h1>
 <br>
-{% for attempt in attempts %}
-    {% for taker in takers%}
-        {% if attempt.taker == taker and taker.user == user %}
-        <h5>Quiz: {{attempt.quiz}}</h5>
-            <br>
-            Question: {{attempt.chosen.question}}
-            <br>
-            Responce: {{attempt.chosen.text}}
-            <br>
-            <br>
-        {% endif %}
-    {% endfor %}
+{% for taker in takers %}
+    {% if taker.user == request.user %}
+        {% for quiz in quizzes %}
+            {% if taker.quiz == quiz %}
+                <h3>Quiz: {{taker.quiz}} </h3> <br>
+                {% for attempt in attempts %}
+                    {% if attempt.quiz == taker.quiz %}
+                        Question: {{attempt.chosen.question}}<br>
+                        Chosen Answer: {{attempt.chosen.text}}<br> <br>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 {% endfor %}
 
 {% endblock content %}

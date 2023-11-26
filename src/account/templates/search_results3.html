@@ -3,11 +3,11 @@
 {% block content %}
 <a href="{% url 'scores' %}" class="btn btn-primary">Back</a>
 <!-- Display search results -->
-<h1>Grade Search Results</h1>
-<small>Use 'ascending' or 'descending' for desired results</small>
-<form action="{% url 'search_results' %}" method="GET">
-    <input type="text" name="query" placeholder="Search..." value="{{ query }}">
-    <button type="submit">Search</button>
+<h1>Score Search Results</h1>
+
+<form action="{% url 'search_results3' %}" method="GET">
+    <input type="text" name="query3" placeholder="Search..." value="{{ query3 }}">
+    <button type="submit3">Search</button>
 </form>
 
 <p>Total results: {{ num_results }}</p>
@@ -15,7 +15,7 @@
 <div class="card" style="width: 18rem;">
     <ul class="list-group list-group-flush">
     {% for item in results %}
-        <li class="list-group-item">{{ item }}</li>
+        <li class="list-group-item">{{ item.student.username }}: {{ item.subject }} {{ item.perc }}</li>
     {% empty %}
         <li>No results found</li>
     {% endfor %}

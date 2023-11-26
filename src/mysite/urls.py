@@ -40,7 +40,7 @@ urlpatterns = [
     path('view_attempts/', view_attempts, name="view_attempts"),
     path('search/', search_results, name='search_results'),
     path('search2/', search_results2, name='search_results2'),
-    path('pie_chart/', pie_chart, name='pie_chart'),
+    path('search3/', search_results3, name='search_results3'),
     path('delete/', del_user, name="delete"),
     path('quiz/', include('quiz.urls')),
     path('must_authenticate/', must_authenticate_view, name="must_authenticate"),

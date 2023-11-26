@@ -18,10 +18,11 @@ class setGrade(forms.ModelForm):
 	student=forms.ModelChoiceField(queryset=Account.objects.all())
 	subject=forms.ModelChoiceField(queryset=Subject.objects.all())
 	letter_grade=forms.ModelChoiceField(queryset=LetterGrades.objects.all())
+	percent=forms.DecimalField(max_digits=5)
 
 	class Meta:
 		model = Grade
-		fields = ("student","letter_grade","subject") 
+		fields = ("student","letter_grade","subject","percent") 
 
 
 #to authenticate

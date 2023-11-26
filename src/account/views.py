@@ -113,6 +113,8 @@ def view_attempts(request):
 	context['attempts'] = attempts
 	takers = QuizTaker.objects.all()
 	context['takers'] = takers
+	quizzes = Quiz.objects.all()
+	context['quizzes'] = quizzes
 
 	return render(request, 'view_attempts.html', context)
 
@@ -137,7 +139,7 @@ def search_results(request):
 
 def search_results2(request):
 	query2 = request.GET.get('query2')
-
+	grades=Grade.objects.all()
 	if query2:
 		results = Account.objects.filter(username__icontains=query2)
 		
@@ -147,7 +149,26 @@ def search_results2(request):
 		combined_results = Account.objects.all()
 		num_results = len(combined_results)
 
-	return render(request, 'search_results2.html', {'results': combined_results, 'query2': query2, 'num_results': num_results })
+	return render(request, 'search_results2.html', {'grades': grades, 'results': combined_results, 'query2': query2, 'num_results': num_results })
+
+def search_results3(request):
+	query3 = request.GET.get('query3')
+
+	if query3:
+		results = Grade.objects.filter(percent__icontains=query3)
+		combined_results = list(results)
+		num_results = len(combined_results)
+		if query3 == 'ascending':
+			combined_results = Grade.objects.all().order_by('percent')
+			num_results = len(combined_results)
+		if query3 == 'descending':
+			combined_results = Grade.objects.all().order_by('-percent')
+			num_results = len(combined_results)
+	else:
+		combined_results = Grade.objects.all()
+		num_results = len(combined_results)
+
+	return render(request, 'search_results3.html', {'results': combined_results, 'query3': query3, 'num_results': num_results })
 
 
 def set_grade(request):
@@ -158,40 +179,12 @@ def set_grade(request):
 		form = setGrade(request.POST)
 		if form.is_valid():
 			form.save()
+			return redirect(request, 'set_grade.html', context)
 	
 	context['form'] = form
 
 
 	return render(request, 'set_grade.html', context)
-
-def pie_chart(request):
-	labels = []
-	data = []
-	Grades = Grade.objects.all()
-	for grade in Grades:
-		if(grade.letter_grade == 'A'):
-			labels.append(100)
-			data.append(grade.student.username)
-		elif(grade.letter_grade == 'B'):
-			labels.append(90)
-			data.append(grade.student.username)
-		elif(grade.letter_grade == 'C'):
-			labels.append(80)
-			data.append(grade.student.username)
-		elif(grade.letter_grade == 'D'):
-			labels.append(70)
-			data.append(grade.student.username)
-		elif(grade.letter_grade == 'F'):
-			labels.append(60)
-			data.append(grade.student.username)
-		else:
-			labels.append(0)
-			data.append(grade.student.username)
-
-	return render(request, 'pie_chart.html', {
-        'labels': labels,
-        'data': data,
-    })
 
 def scores_view(request):
 	context = {}
@@ -199,14 +192,16 @@ def scores_view(request):
 	context['quiz_takers']=quiz_takers
 	grades=Grade.objects.all()
 	context['grades']=grades
+	subjects=Subject.objects.all()
+	context['subjects']=subjects
 
 	scores = []
 	names = []
 
-	for taker in quiz_takers:
-		if taker.user == request.user:
-			scores.append(taker.quiz_score)
-			names.append(taker.quiz.name)
+	for grade in grades:
+		if grade.student == request.user:
+			scores.append(str(grade.percent))
+			names.append(grade.subject)
 	
 	context['names'] = names
 	context['scores'] = scores
@@ -218,25 +213,109 @@ def scores_view(request):
 
 	context['chart_data'] = json.dumps(data)
 	
-	pielabels = []
-	piedata = ['A','B','C','D','F']
+	mathGrades = []
+	lGrades= ['A','B','C','D','F']
 	
+	#math
+	a=0
+	b=0
+	c=0
+	d=0
+	f=0
 	for grade in grades:
-		if(grade.letter_grade == 'A'):
-			pielabels.append(100)
-		elif(grade.letter_grade == 'B'):
-			pielabels.append(80)
-		elif(grade.letter_grade == 'C'):
-			pielabels.append(70)
-		elif(grade.letter_grade == 'D'):
-			pielabels.append(60)
-		else:
-			pielabels.append(0)
-	piechartdata = {
-		'pielabels': pielabels,
-		'piedata': piedata,
+		if grade.subject == 'Math':
+			if grade.letter_grade == 'A':
+				a += 1
+			if grade.letter_grade == 'B':
+				b += 1
+			if grade.letter_grade == 'C':
+				c += 1
+			if grade.letter_grade == 'D':
+				d += 1
+			if grade.letter_grade == 'F':
+				f +=1
+	mathGrades = [a,b,c,d,f]
+	mathPie = {
+		'mathGrades': mathGrades,
+		'lGrades': lGrades,
 	}
-	context['piechartdata'] = json.dumps(piechartdata)
+	context['mathPie'] = json.dumps(mathPie)
+
+	#CompSci
+	a=0
+	b=0
+	c=0
+	d=0
+	f=0
+	for grade in grades:
+		if grade.subject == 'Comp Sci':
+			if grade.letter_grade == 'A':
+				a += 1
+			if grade.letter_grade == 'B':
+				b += 1
+			if grade.letter_grade == 'C':
+				c += 1
+			if grade.letter_grade == 'D':
+				d += 1
+			if grade.letter_grade == 'F':
+				f +=1
+	csGrades = [a,b,c,d,f]
+	csPie = {
+		'csGrades': csGrades,
+		'lGrades': lGrades,
+	}
+	context['csPie'] = json.dumps(csPie)
+
+	#Reading
+	a=0
+	b=0
+	c=0
+	d=0
+	f=0
+	for grade in grades:
+		if grade.subject == 'Reading':
+			if grade.letter_grade == 'A':
+				a += 1
+			if grade.letter_grade == 'B':
+				b += 1
+			if grade.letter_grade == 'C':
+				c += 1
+			if grade.letter_grade == 'D':
+				d += 1
+			if grade.letter_grade == 'F':
+				f +=1
+	readingGrades = [a,b,c,d,f]
+	readingPie = {
+		'readingGrades': readingGrades,
+		'lGrades': lGrades,
+	}
+	context['readingPie'] = json.dumps(readingPie)
+
+	#Writing
+	a=0
+	b=0
+	c=0
+	d=0
+	f=0
+	for grade in grades:
+		if grade.subject == 'Writing':
+			if grade.letter_grade == 'A':
+				a += 1
+			if grade.letter_grade == 'B':
+				b += 1
+			if grade.letter_grade == 'C':
+				c += 1
+			if grade.letter_grade == 'D':
+				d += 1
+			if grade.letter_grade == 'F':
+				f +=1
+	writingGrades = [a,b,c,d,f]
+	writingPie = {
+		'writingGrades': writingGrades,
+		'lGrades': lGrades,
+	}
+	context['writingPie'] = json.dumps(writingPie)
+
 
 
 	
@@ -249,6 +328,9 @@ def scores_view(request):
 		form = setGrade(request.POST)
 		if form.is_valid():
 			form.save()
+			form = setGrade()
+			context['form'] = form
+			return redirect('scores')
 	
 	context['form'] = form
 

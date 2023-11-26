@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
+<a href="{% url 'scores' %}" class="btn btn-primary">Back</a>
 <!-- Display search results -->
 <h1>Student Search Results</h1>
 
@@ -12,12 +12,15 @@
 
 <p>Total results: {{ num_results }}</p>
 
-<ul>
+<div class="card" style="width: 18rem;">
+    <ul class="list-group list-group-flush">
     {% for item in results %}
-        <li>{{ item.username }}</li> <!-- Replace 'your_field' with your actual field names -->
+        <li class="list-group-item">{{ item.username }}</li>
     {% empty %}
         <li>No results found</li>
     {% endfor %}
-</ul>
+    </ul>
+</div>
+
 
 {% endblock content %}

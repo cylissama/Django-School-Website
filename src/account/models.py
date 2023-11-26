@@ -62,6 +62,7 @@ class Grade(models.Model):
 	student = models.ForeignKey(Account, on_delete=models.CASCADE)
 	letter_grade = models.CharField(max_length=1, default="N")
 	subject = models.CharField(max_length=50, default="null")
+	percent = models.DecimalField(max_digits=5, decimal_places=2, default=00.00)
 
 	def __str__(self):
 		return self.student.username + ": " + self.letter_grade + " in " + self.subject
