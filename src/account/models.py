@@ -73,6 +73,13 @@ class Subject(models.Model):
 	def __str__(self):
 		return self.name
 	
+class Weights(models.Model):
+	weight = models.IntegerField(default=0)
+	crit = models.CharField(default="N", max_length=100)
+
+	def __str__(self):
+		return self.weight
+	
 class LetterGrades(models.Model):
 	letter = models.CharField(max_length=1, default="N")
 

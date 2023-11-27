@@ -316,9 +316,6 @@ def scores_view(request):
 	}
 	context['writingPie'] = json.dumps(writingPie)
 
-
-
-	
 	accounts = Account.objects.all()
 	context['accounts']=accounts
 	
@@ -334,8 +331,46 @@ def scores_view(request):
 	
 	context['form'] = form
 
+	Wform = setWeight()
+	if request.method == 'POST':
+		Wform = setWeight(request.POST)
+		if Wform.is_valid():
+			Wform.save()
+			Wform = setWeight()
+			context['Wform'] = Wform
+			return redirect('scores')
+		
+	context['Wform'] = Wform
 	
 	return render(request, 'account/scores.html', context)
+
+criteria_weights = {
+    'Assignment': 0.3,
+    'Test': 0.5,
+    'Project': 0.2,
+}
+
+def calculate_weighted_average(student):
+    # Get grades for the specific student
+    student_grades = Grade.objects.filter(student=student)
+
+    total_weighted_score = 0
+    total_weight = 0
+
+    # Calculate the weighted sum
+    for grade in student_grades:
+        criteria = grade.subject
+        if criteria in criteria_weights:
+            weight = criteria_weights[criteria]
+            total_weighted_score += grade.percent * weight
+            total_weight += weight
+
+    if total_weight != 0:
+        weighted_average = total_weighted_score / total_weight
+    else:
+        weighted_average = 0  # Handle the case where total_weight is 0
+
+    return weighted_average
 
 
 def must_authenticate_view(request):

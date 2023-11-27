@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 
-from account.models import Account, Grade, Subject, LetterGrades
+from account.models import *
 from quiz.models import *
 
 #to register
@@ -14,7 +14,6 @@ class RegistrationForm(UserCreationForm):
 		fields = ("email", "username", "password1", "password2", "is_admin")
 
 class setGrade(forms.ModelForm):
-
 	student=forms.ModelChoiceField(queryset=Account.objects.all())
 	subject=forms.ModelChoiceField(queryset=Subject.objects.all())
 	letter_grade=forms.ModelChoiceField(queryset=LetterGrades.objects.all())
@@ -23,6 +22,14 @@ class setGrade(forms.ModelForm):
 	class Meta:
 		model = Grade
 		fields = ("student","letter_grade","subject","percent") 
+
+class setWeight(forms.ModelForm):
+	crit = forms.CharField()
+	weight = forms.IntegerField(max_value=100)
+ 	
+	class Meta:
+		model = Weights
+		fields = ('crit','weight')
 
 
 #to authenticate
