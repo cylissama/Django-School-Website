@@ -7,13 +7,22 @@
 		padding: 20px;
 		width: 100%;
 	}
+	.custom-header {
+    background-color: #D3D3D3;
+    color: #000000;
+	box-shadow: 0 10px 10px rgba(3, 4, 4, 0.5);
+    /* Other styles if needed */
+	}
 </style>
 
 {% if blog_post %}
 <div class="container">
 	<div class="row">
 		<!-- Blog Post -->
-		<div class="card m-auto">
+		<div class="card  m-auto">
+			<div class="card-header custom-header">
+
+			</div>
 			<a href="{% url 'blog:detail' post.slug %}">
 				<img class="card-img-top" src="{{blog_post.image.url}}">
 			</a>
@@ -25,7 +34,7 @@
 				<p>
 				</p>  
 			</div>
-			<div class="card-footer text-muted px-2 p-3">
+			<div class="card-footer text-muted px-2">
 			  Updated on {{blog_post.date_updated}} by {{blog_post.author}}
 			</div>
 

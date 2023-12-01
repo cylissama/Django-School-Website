@@ -52,18 +52,24 @@
 	margin-right: 5px; /* Add spacing between image and text */
 	/* Other styling properties */
 	}
+	.custom-header {
+    background-color: #D3D3D3;
+    color: #000000;
+	box-shadow: 0 10px 10px rgba(3, 4, 4, 0.5);
+	text-align: center;
+    /* Other styles if needed */
+	}
+	.card1 {
+		height: 375px;
+	}
 </style>
 
-<!-- main content -->
 <div class="container background">
 	
 	<div class="row">
 
-		<!-- blog feed -->
 		<div class="left-column col-lg-5 offset-lg-2">
 
-			<!-- This is the smaller view for when the website is condensed -->
-			<!-- Top 'create post' bar -->
 			<div class="d-lg-none mb-3">
 				<div class="card m-auto d-flex flex-column p-3">
 					<img class="img-fluid d-block m-auto pb-2" src="{% static 'jollyroger.png' %}" width="72" height="72">
@@ -73,10 +79,25 @@
 					<a href="{% url 'create_quiz' %}" class="btn btn-primary">Create a Quiz</a>
 				</div>
 			</div>
-			<!-- end Top 'create post' bar -->
+
+			<div class="p-1">
+				<div class="card card1  create-post-bar d-flex flex-column">
+					<div class="card-header custom-header">
+						<h5>Welcome to the learning site</h5>
+					</div>
+					<div class="card-body">
+						<br>
+						<br>
+						<p class="lead" style="text-align: center;">Here you can learn from different subject</p>
+						<p class="lead" style="text-align: center;">You can also take quizzes to challenge yourself</p>
+						<p class="lead" style="text-align: center;">The top bar can be used for navigation</p>
+						<p class="lead" style="text-align: center;">The nav bar to the right can be used to create post</p>
+					</div>
+				</div>
+			</div>
+
 
 			<!-- Blog posts-->
-
 			{% if blog_posts %}
 				{% for post in blog_posts %}
 					<div class="blog-post-container">
@@ -99,22 +120,22 @@
 
 		<!-- Right 'create post' column  -->
 		<div class="right-column col-lg-3 d-lg-flex d-none flex-column">
-
-			<div class="card rounded-0 create-post-bar d-flex flex-column p-3">
-				<img class="img-fluid d-block m-auto pb-2" src="{% static 'jollyroger.png' %}" width="72" height="72">
-				<p class="lead">"An idiot admires complexity, a genius admires simplicity" -Terry A. Davis</p>
+			<div class="card  create-post-bar d-flex flex-column">
+				<div class="card-header custom-header">
+					<h5>Navigation</h5>
+				</div>
+				<br>
+				<img class="img-fluid d-block m-auto pb-2" src="{% static 'planet3.gif' %}" width="72" height="72">
+				<p class="lead" style="text-align: center;"></p>
 				
-				<p class="m-auto"><a class="btn btn-primary custom-button" href="{% url 'study_page' %}">
-					Study</a></p>
+				<p class="m-auto"><a class=" btn btn-primary custom-button" href="{% url 'study_page' %}">Study</a></p>
 				<hr>
-				<p class="m-auto"><a class="btn btn-primary custom-button" href="{% url 'scores' %}" class="btn btn-primary">Scores</a></p>
+				<p class="m-auto"><a class=" btn btn-primary custom-button" href="{% url 'scores' %}" class="btn btn-primary">Scores</a></p>
 				<hr>
-				<p class="m-auto"><a class="btn btn-primary custom-button" href="{% url 'blog:create' %}">Create post</a></p>
-				<!-- <p class="m-auto"><a class="btn btn-primary" href="{% url 'create_quiz' %}" class="btn btn-primary">Create a Quiz</a></p> -->
-
+				<p class="m-auto"><a class=" btn btn-primary custom-button" href="{% url 'blog:create' %}">Create post</a></p>
+				<br>
 			</div>
 		</div>
-		<!-- end Right 'create post' column  -->
 
 	</div>
 </div>
