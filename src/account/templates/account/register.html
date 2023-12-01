@@ -35,6 +35,14 @@
 		text-align: center;
 	}
 
+	.white-border {
+    color: black; /* Set the main text color */
+    text-shadow:
+        -1px -1px 0 #fff, /* Top-left white shadow */
+         1px -1px 0 #fff, /* Top-right white shadow */
+        -1px 1px 0 #fff, /* Bottom-left white shadow */
+         1px 1px 0 #fff; /* Bottom-right white shadow */
+	}
 </style>
 
 <div class="container d-flex mx-auto justify-content-center"> 
@@ -44,7 +52,7 @@
 			<img class="img-fluid mx-auto d-block" src="{% static 'jollyroger.png' %}" alt="site logo" width="72" heigth="72">
 		</div>
 
-		<h1 class="h3 mb-3 fw-normal">Register</h1>
+		<h1 class="h3 mb-3 fw-normal white-border">Register</h1>
 
 		<input type="email" name="email" class="form-control" id="floatingInput" placeholder="Email" autofocus>
 
@@ -55,7 +63,7 @@
 		<input type="password" name="password2" class="form-control" id="inputPassword2" placeholder="Confirm Password" required>
 
 		<input class="form-check-input" name="is_admin" type="checkbox" value="true" unchecked-value="false" id="flexCheckDefault">
-			<label class="form-check-label" for="flexCheckDefault">
+			<label class="form-check-label white-border" for="flexCheckDefault">
 			Teacher Account</label>
 
 		{% for field in registration_form %}

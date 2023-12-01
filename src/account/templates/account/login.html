@@ -40,7 +40,14 @@
 	    background: gray;
 	    text-align: center;
 	}
-
+	.white-border {
+    color: black; /* Set the main text color */
+    text-shadow:
+        -1px -1px 0 #fff, /* Top-left white shadow */
+         1px -1px 0 #fff, /* Top-right white shadow */
+        -1px 1px 0 #fff, /* Bottom-left white shadow */
+         1px 1px 0 #fff; /* Bottom-right white shadow */
+	}
 
 </style>
 
@@ -50,7 +57,7 @@
 	<div class="d-flex flex-column pb-3">
 		<img class="img-fluid mx-auto d-block" src="{% static 'jollyroger.png' %}" alt="site logo" width="72" heigth="72">
 	</div>
-			<h1 class="h3 mb-3 fw-normal">Login</h1>
+			<h1 class="h3 mb-3 fw-normal white-border">Login</h1>
 
 			<input type="email" name="email" class="form-control" id="floatingInput" placeholder="Email">
 

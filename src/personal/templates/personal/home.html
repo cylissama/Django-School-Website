@@ -41,10 +41,18 @@
 	  max-width: 100%;
 	  height: auto;
 	}
+	.custom-button {
+    box-shadow: 0 10px 10px rgba(3, 4, 4, 0.5);
+	width: 150px;
+	justify-content: center;
+  	}
+	.button-image {
+	width: 150px; /* Adjust the width as needed */
+	height: 20px; /* Adjust the height as needed */
+	margin-right: 5px; /* Add spacing between image and text */
+	/* Other styling properties */
+	}
 </style>
-<head>    
-	<link rel="stylesheet" type="text/css" href="{% static 'your_app/styles.css' %}">
-</head>
 
 <!-- main content -->
 <div class="container background">
@@ -52,7 +60,7 @@
 	<div class="row">
 
 		<!-- blog feed -->
-		<div class="left-column col-lg-7 offset-lg-1">
+		<div class="left-column col-lg-5 offset-lg-2">
 
 			<!-- This is the smaller view for when the website is condensed -->
 			<!-- Top 'create post' bar -->
@@ -92,15 +100,16 @@
 		<!-- Right 'create post' column  -->
 		<div class="right-column col-lg-3 d-lg-flex d-none flex-column">
 
-			<div class="card create-post-bar d-flex flex-column p-3">
+			<div class="card rounded-0 create-post-bar d-flex flex-column p-3">
 				<img class="img-fluid d-block m-auto pb-2" src="{% static 'jollyroger.png' %}" width="72" height="72">
 				<p class="lead">"An idiot admires complexity, a genius admires simplicity" -Terry A. Davis</p>
 				
-				<p class="m-auto"><a class="btn btn-primary" href="{% url 'study_page' %}" class="btn btn-primary">Study</a></p>
+				<p class="m-auto"><a class="btn btn-primary custom-button" href="{% url 'study_page' %}">
+					Study</a></p>
 				<hr>
-				<p class="m-auto"><a class="btn btn-primary" href="{% url 'scores' %}" class="btn btn-primary">Scores</a></p>
+				<p class="m-auto"><a class="btn btn-primary custom-button" href="{% url 'scores' %}" class="btn btn-primary">Scores</a></p>
 				<hr>
-				<p class="m-auto"><a class="btn btn-primary" href="{% url 'blog:create' %}">Create post</a></p>
+				<p class="m-auto"><a class="btn btn-primary custom-button" href="{% url 'blog:create' %}">Create post</a></p>
 				<!-- <p class="m-auto"><a class="btn btn-primary" href="{% url 'create_quiz' %}" class="btn btn-primary">Create a Quiz</a></p> -->
 
 			</div>

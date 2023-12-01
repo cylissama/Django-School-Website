@@ -20,6 +20,7 @@
 .custom-header {
     background-color: #D3D3D3;
     color: #000000;
+	box-shadow: 0 10px 10px rgba(3, 4, 4, 0.5);
     /* Other styles if needed */
 }
 .white-border {
@@ -40,8 +41,8 @@
 {% if user.is_admin %}
 <div name="Top Row" class="p-1 row row-cols-1 row-cols-md-3">
 	<div name="Search" class="div3">
-		<div class="card h-100">
-			<div class="card-header custom-header">
+		<div class="card rounded-0 h-100">
+			<div class="card-header custom-header rounded-0">
 				<h5>
 					Search
 				</h5>
@@ -72,7 +73,7 @@
 	</div>
 
 	<div name="Info" class="div3">
-		<div class="card h-100">
+		<div class="card rounded-0 h-100">
 			<div class="card-header custom-header">
 				<h5>
 					Score Analysis
@@ -98,7 +99,7 @@
 	</div>
 
 	<div name="Assign Grades" class="div3">
-		<div class="card h-100">
+		<div class="card rounded-0 h-100">
 			<div class="card-header custom-header" style="text-align: center;">
 				<h5>
 					Assign Grades
@@ -115,9 +116,13 @@
 	</div>
 </div>
 
-<div name="Grades" class="p-1">
-	<div class="card">
-		<h5 class="card-header custom-header" style="text-align: center;">Grades</h5>
+<div name="Grades" class="p-1 div3">
+	<div class="card h-100 rounded-0">
+		<div class="card-header custom-header rounded-0">
+			<h5>
+				Grades
+			</h5>
+		</div>
 		<table class="table">
 			<thead>
 			<tr>
@@ -170,7 +175,7 @@
 <div name="Graphs" class="p-1">
 	<div class="row row-cols-md-4">
 		<div name="Math" class="col">
-			<div class="card" style="height:25rem;">
+			<div class="card rounded-0" style="height:25rem;">
 				<div class="card-header custom-header">
 				Math
 				</div>
@@ -216,7 +221,7 @@
 			</div>
 		</div>
 		<div name="Computer Science" class="col">
-			<div class="card" style="height:25rem;">
+			<div class="card rounded-0" style="height:25rem;">
 				<div class="card-header custom-header">
 				Computer Science
 				</div>
@@ -262,7 +267,7 @@
 			</div>
 		</div>
 		<div name="Reading" class="col">
-			<div class="card" style="height:25rem;">
+			<div class="card rounded-0" style="height:25rem;">
 				<div class="card-header custom-header">
 				Reading
 				</div>
@@ -308,7 +313,7 @@
 			</div>
 		</div>
 		<div name="Writing" class="col">
-			<div class="card" style="height:25rem;">
+			<div class="card rounded-0" style="height:25rem;">
 				<div class="card-header custom-header">
 				Writing
 				</div>
@@ -394,7 +399,7 @@
 		</div>
 	</div>
 
-	<div name="Grades" class="div3 p-2">
+	<div name="Grades" class="div3 p-3">
 		<div class="card h-100">
 			<div class="card-header custom-header" style="text-align: center;">
 				<h2>Grades</h2>
@@ -408,14 +413,14 @@
 	</div>
 
 	<div name="Picture" class="div3 p-2">
-		<div class="card">
+		<div class="card rounded-0">
 			<img src="{% static 'cat1.png' %}" class="card-img-top" alt="Image Description">
 		</div>
 	</div>
 
 	<div name="Performance Graph" class="div3 p-2">
 
-		<div class="card h-100 custom-card">
+		<div class="card rounded-0 h-100 custom-card">
 			<div class="card-header custom-header" style="text-align: center;">
 				<h2>Graph</h2>
 			</div>
@@ -475,7 +480,7 @@
 	</div>
 
 	<div name="Picture" class="div3 p-2">
-		<div class="card">
+		<div class="card rounded-0">
 			<img src="{% static 'funny.JPG' %}" class="card-img" alt="Image Description">
 		</div>
 </div>

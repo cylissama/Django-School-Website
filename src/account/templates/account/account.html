@@ -7,33 +7,27 @@
 	max-width: 300px;
 	padding: 1rem;
 	}
-
 	.form-signin .form-floating:focus-within {
 	z-index: 2;
 	}
-
 	.form-signin input[type="email"] {
 	margin-bottom: 10px;
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
 	}
-
 	.form-signin input[type="username"] {
 	margin-bottom: 10px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 	}
-
 	.blog-posts{
 		max-width: 300px;
 		width: 85%;
 		margin: auto;
 	}
-
 	div.container {
 		text-align: center;
 	}
-	
 	.white-border {
     color: black; /* Set the main text color */
     text-shadow:
@@ -104,13 +98,18 @@
 <div name="Top Row" class="p-1 div3 container d-flex justify-content-center align-items-center">
 	<div name="Info" class="div3">
 		<h1 class="h3 mb-3 fw-normal white-border">Posts</h1>
-		<div class="card h-100 custom-card">
-			<div class="card-body">
-				{% if blog_posts %}
+			{% if blog_posts %}
+				<div class="card h-100 custom-card">
+					<div class="card-body">
 					{% for post in blog_posts %}
 						<a href="{% url 'blog:detail' post.slug %}" style="text-decoration: none;"><li class="list-group-item border-0">{{post.title}}</li></a>
 					{% endfor %}
-				{% endif %}
+			{% else %}
+				<h5 class="white-border">
+					None
+				</h5>
+			{% endif %}
+				
 			</div>
 		</div>
 	</div>
