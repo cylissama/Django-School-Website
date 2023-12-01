@@ -2,6 +2,8 @@
 {% load static %}
 {% block content %}
 
+<link rel="stylesheet" href="{% static 'style2.css' %}">
+
 <style>
 .div1 {
     float: left;
@@ -15,13 +17,31 @@
 	float: center;
 	text-align: center;
 }
+.custom-header {
+    background-color: #D3D3D3;
+    color: #000000;
+    /* Other styles if needed */
+}
+.white-border {
+    color: black; /* Set the main text color */
+    text-shadow:
+        -1px -1px 0 #fff, /* Top-left white shadow */
+         1px -1px 0 #fff, /* Top-right white shadow */
+        -1px 1px 0 #fff, /* Bottom-left white shadow */
+         1px 1px 0 #fff; /* Bottom-right white shadow */
+}
+.custom-card {
+    max-height: 500px;
+	max-width: 600px;
+    overflow-y: auto;
+}
 </style>
 
 {% if user.is_admin %}
 <div name="Top Row" class="p-1 row row-cols-1 row-cols-md-3">
 	<div name="Search" class="div3">
 		<div class="card h-100">
-			<div class="card-header">
+			<div class="card-header custom-header">
 				<h5>
 					Search
 				</h5>
@@ -53,7 +73,7 @@
 
 	<div name="Info" class="div3">
 		<div class="card h-100">
-			<div class="card-header">
+			<div class="card-header custom-header">
 				<h5>
 					Score Analysis
 				</h5>
@@ -70,16 +90,16 @@
 					<br>
 					<b>Weights</b>
 					<br>
-					Attendance: 20%
+					Attendance: 5%
 					<br>
-					Quiz: 80%
+					Quiz: 95%
 			</div>
 		</div>
 	</div>
 
 	<div name="Assign Grades" class="div3">
 		<div class="card h-100">
-			<div class="card-header" style="text-align: center;">
+			<div class="card-header custom-header" style="text-align: center;">
 				<h5>
 					Assign Grades
 				</h5>
@@ -97,7 +117,7 @@
 
 <div name="Grades" class="p-1">
 	<div class="card">
-		<h5 class="card-header" style="text-align: center;">Grades</h5>
+		<h5 class="card-header custom-header" style="text-align: center;">Grades</h5>
 		<table class="table">
 			<thead>
 			<tr>
@@ -151,7 +171,7 @@
 	<div class="row row-cols-md-4">
 		<div name="Math" class="col">
 			<div class="card" style="height:25rem;">
-				<div class="card-header">
+				<div class="card-header custom-header">
 				Math
 				</div>
 				<div class="card-body">
@@ -197,7 +217,7 @@
 		</div>
 		<div name="Computer Science" class="col">
 			<div class="card" style="height:25rem;">
-				<div class="card-header">
+				<div class="card-header custom-header">
 				Computer Science
 				</div>
 				<div class="card-body">
@@ -243,7 +263,7 @@
 		</div>
 		<div name="Reading" class="col">
 			<div class="card" style="height:25rem;">
-				<div class="card-header">
+				<div class="card-header custom-header">
 				Reading
 				</div>
 				<div class="card-body">
@@ -289,7 +309,7 @@
 		</div>
 		<div name="Writing" class="col">
 			<div class="card" style="height:25rem;">
-				<div class="card-header">
+				<div class="card-header custom-header">
 				Writing
 				</div>
 				<div class="card-body">
@@ -340,11 +360,11 @@
 
 {% else %}
 
-<div name="Top Row" class="p-1 row row-cols-1 row-cols-md-3">
+<div name="Top Row" class="p-1 row row-cols-3 row-cols-md-3">
 
-	<div name="Quizzes" class="div3 p-1">
+	<div name="Quizzes" class="div3 p-2">
 		<div class="card h-100">
-			<div class="card-header" style="text-align: center;">
+			<div class="card-header custom-header" style="text-align: center;">
 				<h2>Quizzes</h2>
 			</div>
 			<ul class="list-group list-group-flush">
@@ -357,90 +377,107 @@
 		</div>
 	</div>
 
-	<div name="Info" class="div3 p-1">
+	<div name="Info" class="div3 p-2">
 		<div class="card h-100">
-			<div class="card-header">
+			<div class="card-header custom-header">
 				<h2>Score Analysis</h2>
 			</div>
 			<div class="card-body">
 				<br>
 				Here you can view your quiz scores check your grades, and view your performance graph
-			</div>
-			
+				<br>
+				<br>
+				<br>
+				<h3>Percentile in class: {{percentile}}</h3>
+			</div>			
 
 		</div>
 	</div>
 
-	<div name="Grades" class="div3 p-1">
+	<div name="Grades" class="div3 p-2">
 		<div class="card h-100">
-			<div class="card-header" style="text-align: center;">
+			<div class="card-header custom-header" style="text-align: center;">
 				<h2>Grades</h2>
 			</div>
 			{% for grade in grades %}
 				{% if grade.student == user %}
-					<b>{{grade.subject}}</b>{{grade.letter_grade}}<br>
+					<b>{{grade.subject}}</b>{{grade.letter_grade}} - {{grade.percent}}%<br>
 				{% endif %}
 			{% endfor %}
 		</div>
 	</div>
 
-</div>
-
-<div name="Performance Graph" class="div3">
-	<h2>Performance Graph</h2>
-
-	<div>
-		<canvas id="myChart" width=200 height=500></canvas>
+	<div name="Picture" class="div3 p-2">
+		<div class="card">
+			<img src="{% static 'cat1.png' %}" class="card-img-top" alt="Image Description">
+		</div>
 	</div>
-	
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	
-	<script>
-		// Retrieve chart data passed from Django view
-		var data = JSON.parse('{{ chart_data|safe }}');
 
-		// Access the canvas element
-		var ctx = document.getElementById('myChart').getContext('2d');
+	<div name="Performance Graph" class="div3 p-2">
 
-		// Create the chart
-		var myChart = new Chart(ctx, {
-			type: 'bar', // Specify the type of chart (bar, line, pie, etc.)
-			data: {
-				labels: data.labels, // Use the labels from Django
-				datasets: [{
-					label: 'Scores', // Label for the dataset
-					data: data.values, // Values from Django
-					backgroundColor:["blue", "green", "yellow", "red"], // Color settings
-					borderColor: 'rgba(75, 192, 192, 1)',
-					borderWidth: .5
-				}]
-			},
-			options: {
-				// Additional chart options (title, legend, etc.)
-				responsive: true,
-				maintainAspectRatio: false,
-				layout: {
-					padding: {
-						left: 100,
-						right: 100,
-						top: 10,
-						bottom: 10
-					}
-				},
-				scales: {
-					yAxes: [{
-						display: true,
-						ticks: {
-							beginAtZero: true,
-							min: 0, // Set the minimum value of y-axis to 0
-							max: 100, // Set the maximum value of y-axis to 100
-							stepSize: 10 // Adjust the step size if needed
-						}
+		<div class="card h-100 custom-card">
+			<div class="card-header custom-header" style="text-align: center;">
+				<h2>Graph</h2>
+			</div>
+			<canvas id="myChart" width=200 height=500></canvas>
+		</div>
+	
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	
+		<script>
+			// Retrieve chart data passed from Django view
+			var data = JSON.parse('{{ chart_data|safe }}');
+	
+			// Access the canvas element
+			var ctx = document.getElementById('myChart').getContext('2d');
+	
+			// Create the chart
+			var myChart = new Chart(ctx, {
+				type: 'bar', // Specify the type of chart (bar, line, pie, etc.)
+				data: {
+					labels: data.labels, // Use the labels from Django
+					datasets: [{
+						label: 'Scores', // Label for the dataset
+						data: data.values, // Values from Django
+						backgroundColor:["blue", "green", "yellow", "red"], // Color settings
+						borderColor: 'rgba(75, 192, 192, 1)',
+						borderWidth: .5
 					}]
 				},
-			}
-		});
-	</script>
+				options: {
+					// Additional chart options (title, legend, etc.)
+					responsive: true,
+					maintainAspectRatio: false,
+					layout: {
+						padding: {
+							left: 100,
+							right: 100,
+							top: 10,
+							bottom: 10
+						}
+					},
+					scales: {
+						yAxes: [{
+							display: true,
+							ticks: {
+								beginAtZero: true,
+								min: 0, // Set the minimum value of y-axis to 0
+								max: 100, // Set the maximum value of y-axis to 100
+								stepSize: 10 // Adjust the step size if needed
+							}
+						}]
+					},
+				}
+			});
+			document.getElementById('myChart').style.backgroundColor = 'white';
+		</script>
+	
+	</div>
+
+	<div name="Picture" class="div3 p-2">
+		<div class="card">
+			<img src="{% static 'funny.JPG' %}" class="card-img" alt="Image Description">
+		</div>
 </div>
 
 {% endif %}

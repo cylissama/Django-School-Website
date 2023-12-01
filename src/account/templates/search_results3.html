@@ -15,7 +15,7 @@
 <div class="card" style="width: 18rem;">
     <ul class="list-group list-group-flush">
     {% for item in results %}
-        <li class="list-group-item">{{ item.student.username }}: {{ item.subject }} {{ item.perc }}</li>
+        <li class="list-group-item">{{ item.student.username }}: {{ item.subject }} <b>{{ item.percent }}</b></li>
     {% empty %}
         <li>No results found</li>
     {% endfor %}

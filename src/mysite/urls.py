@@ -44,7 +44,7 @@ urlpatterns = [
     path('delete/', del_user, name="delete"),
     path('quiz/', include('quiz.urls')),
     path('must_authenticate/', must_authenticate_view, name="must_authenticate"),
-    ]   
+    ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) 
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

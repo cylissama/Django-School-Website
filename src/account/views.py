@@ -6,6 +6,8 @@ from account.models import *
 from quiz.models import *
 from account.forms import *
 import json
+from django.db.models import F, Window
+from django.db.models.functions import PercentRank
 
 def registration_view(request):
 	context={}
@@ -194,6 +196,9 @@ def scores_view(request):
 	context['grades']=grades
 	subjects=Subject.objects.all()
 	context['subjects']=subjects
+
+	percentile = 0.0
+	context['percentile'] = percentile
 
 	scores = []
 	names = []

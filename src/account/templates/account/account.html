@@ -33,16 +33,46 @@
 	div.container {
 		text-align: center;
 	}
+	
+	.white-border {
+    color: black; /* Set the main text color */
+    text-shadow:
+        -1px -1px 0 #fff, /* Top-left white shadow */
+         1px -1px 0 #fff, /* Top-right white shadow */
+        -1px 1px 0 #fff, /* Bottom-left white shadow */
+         1px 1px 0 #fff; /* Bottom-right white shadow */
+	}
+	.div1 {
+		float: left;
+		text-align: center;
+	}
+	.div2 {
+		float: right;
+		text-align: center;
+	}
+	.div3 {
+		float: center;
+		text-align: center;
+	}
+	.custom-card {
+    max-width: 600px; /* Adjust the value as per your requirement */
+    /* Other styles if needed */
+	}
+	.custom-header {
+    background-color: #D3D3D3;
+    color: #000000;
+    /* Other styles if needed */
+	}
 
 </style>
  
-<div class="container d-flex justify-content-center"> 
+<div name="Account" class="container d-flex justify-content-center"> 
  
 	<form class="form-signin" method="post">{% csrf_token %}
 	<div class="d-flex flex-column pb-3">
 		<img class="img-fluid mx-auto d-block" src="{% static 'jollyroger.png' %}" alt="site logo" width="72" heigth="72">
 	</div>
-			<h1 class="h3 mb-3 fw-normal">Account</h1>
+			<h1 class="h3 mb-3 fw-normal white-border">Account</h1>
 
 			<input type="email" name="email" class="form-control" id="floatingInput" placeholder="Email" value="{{account_form.initial.email}}">
 
@@ -71,67 +101,21 @@
 
 </div>
 
-<div class="container d-flex flex-column pb-3">
-      <h3 class="mb-10 p-3 d-flex font-weight-normal justify-content-center">Your posts</h3>
-      {% if blog_posts %}
-        <ul class="list-group mx-auto blog-posts wrapper">
-        {% for post in blog_posts %}
-          <a href="{% url 'blog:detail' post.slug %}" style="text-decoration: none;"><li class="list-group-item border-0">{{post.title}}</li></a>
-        {% endfor %}
-        </ul>
-      {% else %}
-        <p>You have no blog posts. Create a post <a href="{% url 'blog:create' %}">here</a>.</p>
-      {% endif %}
-</div>
-
-<div class="container">
-{% if user.is_admin %}
-	<h3 class="mb-10 p-3 d-flex font-weight-normal justify-content-center">Students</h3>
-		{% for account in accounts %}
-				<div class="row">
-					<div class="col">
-						<div class="card">
-							<h4 class="card-title">{{account.username}}</h4>
-							<div class="card-body">
-								{% for quiz_taker in quiz_takers %}
-									{% if quiz_taker.user == account %}
-										<a href="{% url 'scores' %}" class="btn btn-primary">{{quiz_taker.quiz.type}}: {{quiz_taker.quiz}}</a>
-										<h6>scored a {{quiz_taker.quiz_score}}%</h6>
-									{% endif %}
-								{% endfor %}
-							</div>
-						</div>
-					</div>
-				</div>
-		{% endfor %}
-
-{% endif %}
-
-{% if not user.is_admin %}
-	<h3 class="mb-10 p-3 d-flex font-weight-normal justify-content-center">Quizes Taken</h3>
-	{% for account in accounts %}
-		{% if user.username == account.username %}
-			<div class="row">
-				<div class="col">
-					<div class="card">
-						<h4 class="card-title">{{account.username}}</h4>
-						<div class="card-body">
-							{% for quiz_taker in quiz_takers %}
-								{% if quiz_taker.user == account %}
-									<a href="{% url 'scores' %}" class="btn btn-primary">{{quiz_taker.quiz.type}}: {{quiz_taker.quiz}}</a>
-									<h6>scored a {{quiz_taker.quiz_score}}%</h6>
-								{% endif %}
-							{% endfor %}
-						</div>
-						<small>click a quiz for more details</small>
-					</div>
-				</div>
+<div name="Top Row" class="p-1 div3 container d-flex justify-content-center align-items-center">
+	<div name="Info" class="div3">
+		<h1 class="h3 mb-3 fw-normal white-border">Posts</h1>
+		<div class="card h-100 custom-card">
+			<div class="card-body">
+				{% if blog_posts %}
+					{% for post in blog_posts %}
+						<a href="{% url 'blog:detail' post.slug %}" style="text-decoration: none;"><li class="list-group-item border-0">{{post.title}}</li></a>
+					{% endfor %}
+				{% endif %}
 			</div>
-		{% endif %}
-	{% endfor %}
-
-{% endif %}
+		</div>
+	</div>
 </div>
-   
+
+
 {% endblock content %}
 
